@@ -1,7 +1,15 @@
 <template>
-  <Tutorial/>
+  <div v-if="isAuthenticated">
+
+  </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    isAuthenticated() {
+
+    }
+  },
+}
 </script>
