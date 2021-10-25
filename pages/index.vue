@@ -1,5 +1,6 @@
 <template>
-  <div v-if="isAuthenticated">
+  <div>
+    <h1>Dash</h1>
 
   </div>
 </template>
@@ -7,9 +8,7 @@
 <script>
 export default {
   methods: {
-    isAuthenticated() {
-
-    }
   },
+  middleware: 'auth',
 }
 </script>
