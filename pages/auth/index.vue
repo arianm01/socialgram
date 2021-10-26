@@ -1,13 +1,21 @@
 <template>
-  <div class="left-side">
-    <img src="../../assets/logo/500ppi/Logo3.png" width="100">
-    <div class="left-side-call" v-if="sizeScreen">
-    <h1>Call a friend,</h1>
-      <div class="call">
-        <h1>Call</h1>
-        <img src="../../assets/logo/500ppi/Logo5.png" class="logo-call">
+  <div class="main h-screen w-full w-screen">
+    <div class="left-side w-1/3">
+      <img src="../../assets/logo/500ppi/Logo3.png" width="100">
+      <div class="left-side-call" v-if="sizeScreen">
+        <h1>Call a friend,</h1>
+        <div class="call">
+          <h1>Call</h1>
+          <img src="../../assets/logo/500ppi/Logo5.png" class="logo-call">
+        </div>
       </div>
-     </div>
+      <div class="left-side-image">
+        <!--      some image-->
+      </div>
+    </div>
+    <div class="right-side w-2/3">
+      <h1>Right Side</h1>
+    </div>
   </div>
 </template>
 
@@ -17,12 +25,12 @@ export default {
   data() {
     return {
       size: null,
-      sizeScreen:true,
-    }
+      sizeScreen: true
+    };
   },
 
   watch: {
-    sizeScreen(){
+    sizeScreen() {
       console.log(this.size > 500);
       return this.size > 500;
     }
@@ -30,8 +38,8 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
-    })
+      window.addEventListener("resize", this.onResize);
+    });
   },
 
   methods: {
@@ -44,20 +52,29 @@ export default {
 </script>
 
 <style scoped>
-.left-side{
+.main{
+  display: flex;
+}
+.right-side{
+  background-color:#21343b;
+}
+.left-side {
   font-size: 30px;
   padding: 3%;
-  background-color: aquamarine;
+  background-color: #b0d8da;
 }
-.left-side-call{
+
+.left-side-call {
   padding-top: 15%;
   margin-left: 10%;
 }
-.logo-call{
+
+.logo-call {
   width: 100px;
   padding-left: 1%;
 }
-.call{
+
+.call {
   display: flex;
 }
 </style>

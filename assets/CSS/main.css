@@ -1,0 +1,7 @@
+@font-face{
+  font-family: "Bellota";
+  src: local("Bellota"),url(~assets/font/Bellota-Light.ttf) format("truetype");
+}
+html {
+  font-family: "Bellota", sans-serif;
+}
