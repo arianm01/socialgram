@@ -1,5 +1,5 @@
 <template>
-  <div class="main h-screen w-full w-screen">
+  <div class="main h-screen">
     <div class="grid left-side w-1/3 ">
       <img src="../../assets/logo/500ppi/Logo3.png" width="100" alt="logo">
       <div class="left-side-call justify-self-center " v-if="sizeScreen">
