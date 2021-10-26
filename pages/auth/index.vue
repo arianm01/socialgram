@@ -67,7 +67,6 @@ export default {
 }
 .left-side-image{
   margin-top: -50px;
-  padding: 10%;
   top: -50px;
 }
 
@@ -86,7 +85,7 @@ export default {
 .call {
   display: flex;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 778px) {
   /* For mobile phones: */
   .main{
     display: grid;
