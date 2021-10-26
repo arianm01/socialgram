@@ -1,31 +1,32 @@
 <template>
   <div class="main h-screen w-full w-screen">
     <div class="grid left-side w-1/3 ">
-      <img src="../../assets/logo/500ppi/Logo3.png" width="100">
+      <img src="../../assets/logo/500ppi/Logo3.png" width="100" alt="logo">
       <div class="left-side-call justify-self-center " v-if="sizeScreen">
         <h1>Call a friend,</h1>
         <div class="call">
           <h1>Call</h1>
-          <img src="../../assets/logo/500ppi/Logo5.png" class="logo-call">
+          <img src="../../assets/logo/500ppi/Logo5.png" class="logo-call" alt="socialgram">
         </div>
       </div>
       <div class="left-side-image mt-10">
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <div class="right-side w-2/3">
-      <h1>Right Side</h1>
-    </div>
+    <SignIn />
   </div>
 </template>
 
 <script>
+import SignIn from "~/components/auth/SignIn";
 export default {
   name: "index",
+  components: { SignIn },
   data() {
     return {
       size: null,
-      sizeScreen: true
+      sizeScreen: true,
+      isLogin: true
     };
   },
 
@@ -54,9 +55,6 @@ export default {
 <style scoped>
 .main{
   display: flex;
-}
-.right-side{
-  background-color:#21343b;
 }
 .left-side {
   font-size: 40px;
