@@ -6,20 +6,24 @@
       </div>
       <h1 class="title justify-self-center">Create Account</h1>
       <div class="flex flex-row justify-between btns">
-        <button class="css-button-sliding-to-left--blue">
-          <span class="flex flex-row">
-            <img src="../../assets/pics/icons8-google-50.png" class="w-10" alt="google"/>
-            continue with Google
-          </span>
-        </button>
-        <button class="css-button-sliding-to-left--blue">
-          <span class="flex flex-row">
-            <img src="../../assets/pics/icons8-facebook-50.png" class="w-10" alt="facebook" />
-            continue with facebook
-          </span>
-        </button>
+        <div class="css-button-sliding-to-left--blue">
+          <div class="flex flex-row">
+            <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google"/>
+            <p class="">continue with Google</p>
+          </div>
+        </div>
+        <div class="css-button-sliding-to-left--blue">
+          <div class="flex flex-row">
+            <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
+            <p>continue with facebook</p>
+          </div>
+        </div>
       </div>
       <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
+      <div class="flex flex-row justify-start">
+        <span class="underline">Add Avatar</span>
+        <hr class="underline">
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +51,11 @@ export default {
 .title {
   align-self: center;
   font-size: 35px;
+}
+
+.underline{
+  margin-top: 1%;
+  width: max-content;
 }
 
 .css-button-sliding-to-left--blue {
@@ -93,4 +102,26 @@ export default {
   z-index: 10;
   color: #fff;
 }
+
+@media only screen and (max-width: 980px) {
+  /* For mobile phones: */
+  .css-button-sliding-to-left--blue{
+    font-size:22px;
+  }
+  .g-span{
+    width: 13%;
+  }
+}
+
+
+@media only screen and (max-width: 888px) {
+  /* For mobile phones: */
+  .css-button-sliding-to-left--blue{
+    font-size:19px;
+  }
+  .g-span{
+    width: 12%;
+  }
+}
+
 </style>
