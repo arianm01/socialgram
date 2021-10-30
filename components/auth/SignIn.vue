@@ -1,5 +1,6 @@
 <template>
   <div class="banner h-screen w-2/3">
+    <form @submit.prevent="$emit('submit')">
     <div class="right-side h-screen flex flex-col">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
@@ -42,13 +43,14 @@
           <input type="text" placeholder="City" class="input_box mr-2">
         </div>
       </div>
-      <div class="css-button-sliding-to-left--green ">
+      <button class="css-button-sliding-to-left--green place-self-center" type="submit">
         Create Account
-      </div>
+      </button>
       <div class="mt-7 log">
         Already have an account ? <span class="login">Login</span>
       </div>
     </div>
+    </form>
   </div>
 </template>
 
@@ -133,6 +135,7 @@ export default {
 
 .css-button-sliding-to-left--green {
   align-self: center;
+  justify-self: center;
   min-width: 130px;
   width: 70%;
   height: 50px;

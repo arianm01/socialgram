@@ -12,24 +12,28 @@
       <div class="left-side-image mt-10">
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
-<!--      <div class="left-side-image2 mt-10">-->
-<!--        <img src="../../assets/pics/Saly-14(1).png" alt="saly">-->
-<!--      </div>-->
     </div>
-    <SignIn />
+    <SignIn v-if="isLogin" @submit="SignInUser"/>
+    <Login v-else />
   </div>
 </template>
 
 <script>
 import SignIn from "~/components/auth/SignIn";
+import Login from "~/components/auth/Login";
 export default {
   name: "index",
-  components: { SignIn },
+  components: { SignIn, Login },
   data() {
     return {
-      isLogin: true
+      isLogin: false
     };
-  }
+  },
+  methods: {
+    signInUser(){
+
+    }
+  },
 };
 </script>
 
