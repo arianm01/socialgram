@@ -1,5 +1,5 @@
 <template>
-  <div class="banner w-2/3">
+  <div class="banner h-screen w-2/3">
     <div class="right-side h-screen flex flex-col">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
@@ -236,11 +236,14 @@ export default {
   }
   .right-side{
     width: 100%;
-    height: min-content;
+    height: fit-content;
+    min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
 .banner{
   width: 100%;
+  /*height: 70vh;*/
+  min-height: fit-content;
 }
   .g-span {
     width: 50%;

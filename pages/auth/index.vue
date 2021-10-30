@@ -12,9 +12,9 @@
       <div class="left-side-image mt-10">
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
-      <div class="left-side-image2 mt-10">
-        <img src="../../assets/pics/Saly-14(1).png" alt="saly">
-      </div>
+<!--      <div class="left-side-image2 mt-10">-->
+<!--        <img src="../../assets/pics/Saly-14(1).png" alt="saly">-->
+<!--      </div>-->
     </div>
     <SignIn />
   </div>
@@ -27,30 +27,8 @@ export default {
   components: { SignIn },
   data() {
     return {
-      size: null,
-      sizeScreen: true,
       isLogin: true
     };
-  },
-
-  watch: {
-    sizeScreen() {
-      console.log(this.size > 500);
-      return this.size > 500;
-    }
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.onResize);
-    });
-  },
-
-  methods: {
-    onResize() {
-      this.size = window.innerWidth;
-      this.sizeScreen = this.size > 500;
-    }
   }
 };
 </script>
@@ -79,9 +57,6 @@ export default {
   padding-top: 20%;
   margin-bottom: 0;
 }
-.left-side-image2{
-  display: none;
-}
 .logo-call {
   width: 150px;
   margin-left: 3%;
@@ -94,7 +69,7 @@ export default {
   /* For mobile phones: */
   .main{
     display: grid;
-    height:100%;
+    /*height:100%;*/
   }
   .logo{
     justify-self: center;
@@ -108,10 +83,6 @@ export default {
   }
   .logo-call{
     width:100px;
-  }
-  .left-side-image2{
-    z-index:20;
-    /*display: ;*/
   }
 }
 </style>
