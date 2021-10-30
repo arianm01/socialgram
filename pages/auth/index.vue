@@ -1,8 +1,8 @@
 <template>
   <div class="main h-screen">
     <div class="grid left-side w-1/3 ">
-      <img src="../../assets/logo/500ppi/Logo3.png" width="100" alt="logo">
-      <div class="left-side-call justify-self-center " v-if="sizeScreen">
+      <img src="../../assets/logo/500ppi/Logo3.png" class="logo" width="100" alt="logo">
+      <div class="left-side-call justify-self-center ">
         <h1>Call a friend,</h1>
         <div class="call">
           <h1>Call</h1>
@@ -11,6 +11,9 @@
       </div>
       <div class="left-side-image mt-10">
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
+      </div>
+      <div class="left-side-image2 mt-10">
+        <img src="../../assets/pics/Saly-14(1).png" alt="saly">
       </div>
     </div>
     <SignIn />
@@ -76,7 +79,9 @@ export default {
   padding-top: 20%;
   margin-bottom: 0;
 }
-
+.left-side-image2{
+  display: none;
+}
 .logo-call {
   width: 150px;
   margin-left: 3%;
@@ -85,10 +90,28 @@ export default {
 .call {
   display: flex;
 }
-@media only screen and (max-width: 778px) {
+@media only screen and (max-width: 825px) {
   /* For mobile phones: */
   .main{
     display: grid;
+    height:100%;
+  }
+  .logo{
+    justify-self: center;
+  }
+  .left-side{
+    font-size: 30px;
+    width:100%;
+  }
+  .left-side-image{
+    display:none;
+  }
+  .logo-call{
+    width:100px;
+  }
+  .left-side-image2{
+    z-index:20;
+    /*display: ;*/
   }
 }
 </style>

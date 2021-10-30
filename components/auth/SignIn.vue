@@ -1,7 +1,7 @@
 <template>
   <div class="banner w-2/3">
     <div class="right-side h-screen flex flex-col">
-      <div class="flex flex-row justify-end .flex-1"><h1 class="english">English(</h1><img
+      <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
       </div>
       <h1 class="title justify-self-center">Create Account</h1>
@@ -9,13 +9,13 @@
         <div class="css-button-sliding-to-left--blue">
           <div class="flex flex-row">
             <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
-            <p class="">continue with Google</p>
+            <p class="Goo-p">continue with Google</p>
           </div>
         </div>
         <div class="css-button-sliding-to-left--blue">
           <div class="flex flex-row">
             <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
-            <p>continue with facebook</p>
+            <p class="Goo-p">continue with facebook</p>
           </div>
         </div>
       </div>
@@ -191,6 +191,7 @@ export default {
 }
 .login{
   color: blue;
+  cursor: pointer;
 }
 .log{
   width:70%;
@@ -201,34 +202,59 @@ export default {
 @media only screen and (max-width: 980px) {
   /* For mobile phones: */
   .css-button-sliding-to-left--blue {
-    font-size: 22px;
-    min-width: 110px;
-    height: 50px;
+    font-size: 20px;
+    min-width: 105px;
+    height: 45px;
   }
-
   .g-span {
     width: 13%;
   }
-
   .txt-avatar {
     font-size: 18px;
   }
 }
 
 
-@media only screen and (max-width: 888px) {
+@media only screen and (max-width: 825px) {
   /* For mobile phones: */
   .css-button-sliding-to-left--blue {
-    font-size: 19px;
-    height: 40px;
+    font-size: 18px;
+    height: 50px;
+    border:none;
+    margin-left: 8%;
+    width: fit-content;
   }
+  .btns{
+    justify-content: center;
 
+  }
+  .english1{
+    display: none;
+  }
+  .Goo-p{
+    display:none;
+  }
+  .right-side{
+    width: 100%;
+    height: min-content;
+    border-radius: 50px 50px 0 0;
+  }
+.banner{
+  width: 100%;
+}
   .g-span {
-    width: 12%;
+    width: 50%;
   }
 
   .txt-avatar {
     font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  /* For mobile phones: */
+  .txt-avatar {
+    font-size: 15px;
   }
 }
 
