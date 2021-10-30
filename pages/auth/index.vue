@@ -75,6 +75,9 @@ export default {
     display: grid;
     /*height:100%;*/
   }
+  .left-side-call {
+    padding-top:10%;
+  }
   .logo{
     justify-self: center;
   }

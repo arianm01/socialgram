@@ -224,12 +224,13 @@ export default {
     font-size: 18px;
     height: 50px;
     border:none;
-    margin-left: 8%;
-    width: fit-content;
+    min-width: fit-content;
+  }
+  .css-button-sliding-to-left--blue:after {
+    background-color: #21343b;
   }
   .btns{
-    justify-content: center;
-
+    justify-content:space-evenly;
   }
   .english1{
     display: none;
@@ -249,9 +250,8 @@ export default {
   min-height: fit-content;
 }
   .g-span {
-    width: 50%;
+    width: 85%;
   }
-
   .txt-avatar {
     font-size: 16px;
   }
