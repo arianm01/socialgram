@@ -13,25 +13,29 @@
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <SignIn v-if="isLogin" @submit="SignInUser"/>
-    <Login v-else />
+    <SignUp v-if="isLogin" @toggle="toggle"/>
+    <Login v-else @toggle="toggle" />
   </div>
 </template>
 
 <script>
-import SignIn from "~/components/auth/SignIn";
+import SignUp from "~/components/auth/SignUp";
 import Login from "~/components/auth/Login";
 export default {
   name: "index",
-  components: { SignIn, Login },
+  components: { SignUp, Login },
   data() {
     return {
-      isLogin: false
+      isLogin: true
     };
   },
   methods: {
     signInUser(){
 
+    },
+    toggle(){
+      console.log('t');
+      this.isLogin = !this.isLogin;
     }
   },
 };
@@ -74,6 +78,9 @@ export default {
   .main{
     display: grid;
     /*height:100%;*/
+  }
+  .left-side-call {
+    padding-top:10%;
   }
   .logo{
     justify-self: center;

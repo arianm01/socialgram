@@ -1,5 +1,5 @@
 <template>
-  <div class="banner h-screen w-2/3">
+  <div class="banner w-2/3">
     <form @submit.prevent="$emit('submit')">
     <div class="right-side h-screen flex flex-col">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
@@ -46,8 +46,8 @@
       <button class="css-button-sliding-to-left--green place-self-center" type="submit">
         Create Account
       </button>
-      <div class="mt-7 log">
-        Already have an account ? <span class="login">Login</span>
+      <div class="log">
+        Already have an account ? <span @click="$emit('toggle')" class="login">Login</span>
       </div>
     </div>
     </form>
@@ -137,6 +137,7 @@ export default {
   align-self: center;
   justify-self: center;
   min-width: 130px;
+  min-height: 50px;
   width: 70%;
   height: 50px;
   color: #21343b;
@@ -197,6 +198,8 @@ export default {
   cursor: pointer;
 }
 .log{
+  margin-top: 2%;
+  display: flex;
   width:70%;
   align-self: center;
   font-size: 20px;
@@ -224,12 +227,13 @@ export default {
     font-size: 18px;
     height: 50px;
     border:none;
-    margin-left: 8%;
-    width: fit-content;
+    min-width: fit-content;
+  }
+  .css-button-sliding-to-left--blue:after {
+    background-color: #21343b;
   }
   .btns{
-    justify-content: center;
-
+    justify-content:space-evenly;
   }
   .english1{
     display: none;
@@ -239,21 +243,27 @@ export default {
   }
   .right-side{
     width: 100%;
-    height: fit-content;
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
 .banner{
   width: 100%;
-  /*height: 70vh;*/
-  min-height: fit-content;
 }
   .g-span {
-    width: 50%;
+    width: 85%;
   }
-
   .txt-avatar {
     font-size: 16px;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .banner{
+    height: 100%;
+    background-color: #21343b;
+  }
+  .right-side{
+    height: fit-content;
   }
 }
 
@@ -261,6 +271,16 @@ export default {
   /* For mobile phones: */
   .txt-avatar {
     font-size: 15px;
+  }
+  .log{
+    font-size: 12px;
+    display: flex;
+  }
+  .login{
+    margin-left: 2%;
+  }
+  .avatar{
+    width: 85%;
   }
 }
 
