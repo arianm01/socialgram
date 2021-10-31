@@ -13,14 +13,15 @@
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <SignUp v-if="isLogin" @toggle="toggle"/>
-    <Login v-else @toggle="toggle" />
+    <SignUp v-if="isLogin" @toggle="toggle" @submit="signUp" @warning="warn"/>
+    <Login v-else @toggle="toggle" @submit="login" @warning="warn" />
   </div>
 </template>
 
 <script>
 import SignUp from "~/components/auth/SignUp";
 import Login from "~/components/auth/Login";
+import Swal from 'sweetalert2';
 export default {
   name: "index",
   components: { SignUp, Login },
@@ -30,11 +31,21 @@ export default {
     };
   },
   methods: {
-    signInUser(){
+    signUp(){
 
     },
+    login(){
+
+    },
+    warn(){
+      Swal.fire({
+        title: 'Error!',
+        text: 'this functionality is not supported in your country (be goshadi ma ham rabti nadare)',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    },
     toggle(){
-      console.log('t');
       this.isLogin = !this.isLogin;
     }
   },

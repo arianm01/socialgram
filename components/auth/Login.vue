@@ -1,19 +1,19 @@
 <template>
   <div class="banner w-2/3">
-    <form @submit.prevent="$emit('submit')">
+    <form @submit.prevent="onLogin">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
           src="../../assets/pics/contents.png" alt="english" width="30" />)
         </div>
         <h1 class="title">Login to your Account</h1>
         <div class="flex flex-row justify-between btns">
-          <div class="css-button-sliding-to-left--blue">
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
               <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
               <p class="Goo-p">continue with Google</p>
             </div>
           </div>
-          <div class="css-button-sliding-to-left--blue">
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
               <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
               <p class="Goo-p">continue with facebook</p>
@@ -22,10 +22,10 @@
         </div>
         <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
         <div class="flex flex-row justify-center mt-7">
-          <input type="text" placeholder="Username or email" style="width:50%;" class="input_box">
+          <input type="text" required v-model.trim="user.UsernameOrEmail" placeholder="Username or email" style="width:50%;" class="input_box">
         </div>
         <div class="flex flex-row justify-center mt-7">
-          <input type="password" placeholder="Password" style="width:50%;" class="input_box">
+          <input type="password" required v-model.trim="user.password" placeholder="Password" style="width:50%;" class="input_box">
         </div>
         <button class="css-button-sliding-to-left--green place-self-center" type="submit">
           Login
@@ -40,7 +40,20 @@
 
 <script>
 export default {
-  name: "Login"
+  name: "Login",
+  data(){
+    return {
+      user: {
+        UsernameOrEmail: "",
+        password: "",
+      }
+    }
+  },
+  methods: {
+    onLogin(){
+      this.$emit("submit",this.user);
+    }
+  }
 };
 </script>
 

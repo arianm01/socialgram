@@ -7,13 +7,13 @@
       </div>
       <h1 class="title justify-self-center">Create Account</h1>
       <div class="flex flex-row justify-between btns">
-        <div class="css-button-sliding-to-left--blue">
+        <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
           <div class="flex flex-row">
             <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
             <p class="Goo-p">continue with Google</p>
           </div>
         </div>
-        <div class="css-button-sliding-to-left--blue">
+        <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
           <div class="flex flex-row">
             <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
             <p class="Goo-p">continue with facebook</p>
@@ -194,6 +194,7 @@ export default {
   font-size: 20px;
 }
 .login{
+  margin-left: 2%;
   color: blue;
   cursor: pointer;
 }
