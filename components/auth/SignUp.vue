@@ -1,7 +1,7 @@
 <template>
-  <div class="banner h-screen w-2/3">
+  <div class="banner w-2/3">
     <form @submit.prevent="$emit('submit')">
-    <div class="right-side h-screen flex flex-col">
+    <div class="right-side h-screen flex flex-col flex-wrap">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
       </div>
@@ -47,7 +47,7 @@
         Create Account
       </button>
       <div class="mt-7 log">
-        Already have an account ? <span class="login">Login</span>
+        Already have an account ? <span @click="$emit('toggle')" class="login">Login</span>
       </div>
     </div>
     </form>
@@ -240,20 +240,20 @@ export default {
   }
   .right-side{
     width: 100%;
-    height: fit-content;
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
 .banner{
   width: 100%;
-  /*height: 70vh;*/
-  min-height: fit-content;
 }
   .g-span {
     width: 85%;
   }
   .txt-avatar {
     font-size: 16px;
+  }
+  .title {
+    font-size: 30px;
   }
 }
 

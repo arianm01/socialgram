@@ -1,5 +1,5 @@
 <template>
-  <div class="banner h-screen w-2/3">
+  <div class="banner w-2/3">
     <form @submit.prevent="$emit('submit')">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
@@ -31,7 +31,7 @@
           Login
         </button>
         <div class="mt-7 log">
-          don't have an account ? <span class="login" style="display:block;">Sign up</span>
+          don't have an account ? <span @click="$emit('toggle')" class="login" style="display:block;">Sign up</span>
         </div>
       </div>
     </form>
