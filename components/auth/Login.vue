@@ -5,7 +5,7 @@
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
           src="../../assets/pics/contents.png" alt="english" width="30" />)
         </div>
-        <h1 class="title justify-self-center">Login to your Account</h1>
+        <h1 class="title">Login to your Account</h1>
         <div class="flex flex-row justify-between btns">
           <div class="css-button-sliding-to-left--blue">
             <div class="flex flex-row">
@@ -58,6 +58,7 @@ export default {
 }
 
 .title {
+ text-align: center;
   align-self: center;
   font-size: 35px;
 }
@@ -183,7 +184,6 @@ export default {
   }
 }
 
-
 @media only screen and (max-width: 825px) {
   /* For mobile phones: */
   .css-button-sliding-to-left--blue {
@@ -213,9 +213,16 @@ export default {
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
-  .banner{
+  .banner {
     width: 100%;
     /*min-height: min-content;*/
+  }
+  .banner{
+    height: 100%;
+    background-color: #21343b;
+  }
+  .right-side{
+    height: fit-content;
   }
   .g-span {
     width: 85%;

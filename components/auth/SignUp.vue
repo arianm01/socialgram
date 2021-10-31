@@ -1,7 +1,7 @@
 <template>
   <div class="banner w-2/3">
     <form @submit.prevent="$emit('submit')">
-    <div class="right-side h-screen flex flex-col flex-wrap">
+    <div class="right-side h-screen flex flex-col">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
       </div>
@@ -46,7 +46,7 @@
       <button class="css-button-sliding-to-left--green place-self-center" type="submit">
         Create Account
       </button>
-      <div class="mt-7 log">
+      <div class="log">
         Already have an account ? <span @click="$emit('toggle')" class="login">Login</span>
       </div>
     </div>
@@ -137,6 +137,7 @@ export default {
   align-self: center;
   justify-self: center;
   min-width: 130px;
+  min-height: 50px;
   width: 70%;
   height: 50px;
   color: #21343b;
@@ -197,6 +198,8 @@ export default {
   cursor: pointer;
 }
 .log{
+  margin-top: 2%;
+  display: flex;
   width:70%;
   align-self: center;
   font-size: 20px;
@@ -255,12 +258,29 @@ export default {
   .title {
     font-size: 30px;
   }
+  .banner{
+    height: 100%;
+    background-color: #21343b;
+  }
+  .right-side{
+    height: fit-content;
+  }
 }
 
 @media only screen and (max-width: 480px) {
   /* For mobile phones: */
   .txt-avatar {
     font-size: 15px;
+  }
+  .log{
+    font-size: 12px;
+    display: flex;
+  }
+  .login{
+    margin-left: 2%;
+  }
+  .avatar{
+    width: 85%;
   }
 }
 
