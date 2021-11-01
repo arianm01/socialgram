@@ -27,7 +27,7 @@ export default {
   components: { SignUp, Login },
   data() {
     return {
-      isSignUp: true
+      isSignUp: false
     };
   },
   methods: {
@@ -38,7 +38,10 @@ export default {
       });
     },
     login(user){
-
+      this.$store.dispatch("authenticateUser", {
+        ...user,
+        isSignUp: this.isSignUp
+      })
     },
     warn(){
       Swal.fire({

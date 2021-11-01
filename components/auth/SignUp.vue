@@ -26,21 +26,22 @@
         <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected">
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="text" v-model.trim="user.name" placeholder="Name" required class="input_box ml-7">
-        <input type="text" v-model.trim="user.username" placeholder="Username" required style="width:39%;" class="input_box mr-10">
+        <input type="text" v-model.trim="user.name.val" placeholder="Name" required class="input_box ml-7">
+        <p v-if="!user.name.isValid">Firstname must not be empty.</p>
+        <input type="text" v-model.trim="user.username.val" placeholder="Username" @change="isUsernameUniqe" required style="width:39%;" class="input_box mr-10">
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="email" v-model.trim="user.email" placeholder="Email" required class="input_box ml-7">
+        <input type="email" v-model.trim="user.email.val" placeholder="Email" @change="isEmailUniqe" required class="input_box ml-7">
         <div class="flex flex-row justify-around">
-          <input type="text" v-model.trim="user.gender" placeholder="Gender" required class="input_box">
-          <input type="number" v-model.trim="user.age" placeholder="Age" required class="input_box mr-2">
+          <input type="text" v-model.trim="user.gender.val" placeholder="Gender" required class="input_box">
+          <input type="number" v-model.trim="user.age.val" placeholder="Age" required class="input_box mr-2">
         </div>
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="password" v-model.trim="user.password" placeholder="Password" required class="input_box ml-7">
+        <input type="password" v-model.trim="user.password.val" placeholder="Password" required class="input_box ml-7">
         <div class="flex flex-row justify-around">
-          <input type="text" v-model.trim="user.country" placeholder="Country" required class="input_box">
-          <input type="text" v-model.trim="user.city" placeholder="City" required class="input_box mr-2">
+          <input type="text" v-model.trim="user.country.val" placeholder="Country" required class="input_box">
+          <input type="text" v-model.trim="user.city.val" placeholder="City" required class="input_box mr-2">
         </div>
       </div>
       <button class="css-button-sliding-to-left--green place-self-center"  type="submit">
@@ -61,20 +62,50 @@ export default {
     return{
       selectedFile: null,
       user:{
-        name: "",
-        username: "",
-        password: "",
-        email: "",
-        gender: "",
-        age: "",
-        city: "",
-        country: "",
+        name: {
+          val:'',
+          isValid:true
+        },
+        username: {
+          val:'',
+          isValid:true
+        },
+        password: {
+          val:'',
+          isValid:true
+        },
+        email: {
+          val:'',
+          isValid:true
+        },
+        gender: {
+          val:'',
+          isValid:true
+        },
+        age: {
+          val:'',
+          isValid:true
+        },
+        city: {
+          val:'',
+          isValid:true
+        },
+        country: {
+          val:'',
+          isValid:true
+        },
       }
     }
   },
   methods:{
     onFileSelected(event){
       this.selectedFile = event.target.files[0];
+    },
+    isUsernameUniqe(event){
+      console.log(event);
+    },
+    isEmailUniqe(event){
+      console.log(event);
     },
     Submit(){
       this.$emit('signUp',{ ...this.user , image: this.selectedFile})
