@@ -12,6 +12,9 @@ const createStore = () => {
       },
       initAuth(vuexContext, req){
         return false
+      },
+      authenticateUser(context, payload){
+
       }
     },
     getters: {

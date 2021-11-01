@@ -1,6 +1,6 @@
 <template>
   <div class="banner w-2/3">
-    <form @submit.prevent="$emit('submit')">
+    <form @submit.prevent="Submit">
     <div class="right-side h-screen flex flex-col">
       <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
         src="../../assets/pics/contents.png" alt="english" width="30" />)
@@ -23,27 +23,27 @@
       <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
       <div class="flex flex-row justify-start">
         <h1 class="txt-avatar">Add Your Avatar</h1>
-        <input type="file" class="avatar">
+        <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected">
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="text" placeholder="Name" required class="input_box ml-7">
-        <input type="text" placeholder="Username" style="width:39%;" class="input_box mr-10">
+        <input type="text" v-model.trim="user.name" placeholder="Name" required class="input_box ml-7">
+        <input type="text" v-model.trim="user.username" placeholder="Username" required style="width:39%;" class="input_box mr-10">
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="email" placeholder="Email" class="input_box ml-7">
+        <input type="email" v-model.trim="user.email" placeholder="Email" required class="input_box ml-7">
         <div class="flex flex-row justify-around">
-          <input type="text" placeholder="Gender" class="input_box">
-          <input type="number" placeholder="Age" class="input_box mr-2">
+          <input type="text" v-model.trim="user.gender" placeholder="Gender" required class="input_box">
+          <input type="number" v-model.trim="user.age" placeholder="Age" required class="input_box mr-2">
         </div>
       </div>
       <div class="flex flex-row justify-between mt-7">
-        <input type="password" placeholder="Password" class="input_box ml-7">
+        <input type="password" v-model.trim="user.password" placeholder="Password" required class="input_box ml-7">
         <div class="flex flex-row justify-around">
-          <input type="text" placeholder="Country" class="input_box">
-          <input type="text" placeholder="City" class="input_box mr-2">
+          <input type="text" v-model.trim="user.country" placeholder="Country" required class="input_box">
+          <input type="text" v-model.trim="user.city" placeholder="City" required class="input_box mr-2">
         </div>
       </div>
-      <button class="css-button-sliding-to-left--green place-self-center" type="submit">
+      <button class="css-button-sliding-to-left--green place-self-center"  type="submit">
         Create Account
       </button>
       <div class="log">
@@ -55,9 +55,32 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "SignIn",
-  layout: "default"
+  data(){
+    return{
+      selectedFile: null,
+      user:{
+        name: "",
+        username: "",
+        password: "",
+        email: "",
+        gender: "",
+        age: "",
+        city: "",
+        country: "",
+      }
+    }
+  },
+  methods:{
+    onFileSelected(event){
+      this.selectedFile = event.target.files[0];
+    },
+    Submit(){
+      this.$emit('signUp',{ ...this.user , image: this.selectedFile})
+    }
+  }
 };
 </script>
 

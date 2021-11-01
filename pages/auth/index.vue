@@ -13,7 +13,7 @@
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <SignUp v-if="isLogin" @toggle="toggle" @submit="signUp" @warning="warn"/>
+    <SignUp v-if="isSignUp" @toggle="toggle" @signUp="signUp" @warning="warn"/>
     <Login v-else @toggle="toggle" @submit="login" @warning="warn" />
   </div>
 </template>
@@ -27,26 +27,29 @@ export default {
   components: { SignUp, Login },
   data() {
     return {
-      isLogin: true
+      isSignUp: true
     };
   },
   methods: {
-    signUp(){
-
+    signUp(user){
+      this.$store.dispatch("authenticateUser",{
+        ...user,
+        isSignUp: this.isSignUp
+      })
     },
-    login(){
+    login(user){
 
     },
     warn(){
       Swal.fire({
-        title: 'Error!',
-        text: 'this functionality is not supported in your country (be goshadi ma ham rabti nadare)',
+        title: 'Sorry!',
+        text: 'this functionality is not supported in your country ( be goshadi ma rabti nadare :) )',
         icon: 'error',
         confirmButtonText: 'Cool'
       })
     },
     toggle(){
-      this.isLogin = !this.isLogin;
+      this.isSignUp = !this.isSignUp;
     }
   },
 };
@@ -61,18 +64,12 @@ export default {
   padding: 2%;
   background-color: #b0d8da;
 }
-
-.left-side img{
-  /*margin-bottom: 30%;*/
-}
 .left-side-image{
   margin-top: -50px;
   top: -50px;
 }
 
 .left-side-call {
-  /*padding-top: 15%;*/
-  /*margin-left: 10%;*/
   padding-top: 20%;
   margin-bottom: 0;
 }
@@ -88,7 +85,6 @@ export default {
   /* For mobile phones: */
   .main{
     display: grid;
-    /*height:100%;*/
   }
   .left-side-call {
     padding-top:10%;
