@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch("authenticateUser",{
         ...user,
         isSignUp: this.isSignUp
-      })
+      });
     },
     login(user){
 
