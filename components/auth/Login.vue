@@ -22,10 +22,12 @@
         </div>
         <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
         <div class="flex flex-row justify-center mt-7">
-          <input type="text" required v-model.trim="user.UsernameOrEmail" placeholder="Username or email" style="width:50%;" class="input_box">
+          <input type="text" required v-model.trim="user.UsernameOrEmail.val" placeholder="Username or email"
+                 style="width:50%;" :class="{input_box: user.UsernameOrEmail.isValid, invalid: !user.UsernameOrEmail.isValid}">
         </div>
         <div class="flex flex-row justify-center mt-7">
-          <input type="password" required v-model.trim="user.password" placeholder="Password" style="width:50%;" class="input_box">
+          <input type="password" required v-model.trim="user.password.val" placeholder="Password" style="width:50%;"
+                 :class="{input_box: user.password.isValid, invalid: !user.password.isValid}">
         </div>
         <button class="css-button-sliding-to-left--green place-self-center" type="submit">
           Login
@@ -41,17 +43,27 @@
 <script>
 export default {
   name: "Login",
-  data(){
+  data() {
     return {
       user: {
-        UsernameOrEmail: "",
-        password: "",
+        UsernameOrEmail: {
+          val: "",
+          isValid: true
+        },
+        password: {
+          val: "",
+          isValid: true
+        }
       }
-    }
+    };
   },
   methods: {
-    onLogin(){
-      this.$emit("submit",this.user);
+    onLogin() {
+      console.log(this.user);
+      this.$store.dispatch("authenticateUser", {
+        ...this.user,
+        isSignUp: false
+      })
     }
   }
 };
@@ -71,7 +83,7 @@ export default {
 }
 
 .title {
- text-align: center;
+  text-align: center;
   align-self: center;
   font-size: 35px;
 }
@@ -175,12 +187,22 @@ export default {
   color: #fff;
   font-size: 20px;
 }
-.login{
+
+.invalid {
+  border: 1px solid red;
+  background: #21343b;
+  width: 35%;
+  color: #fff;
+  font-size: 20px;
+}
+
+.login {
   color: blue;
   cursor: pointer;
 }
-.log{
-  width:70%;
+
+.log {
+  width: 70%;
   align-self: center;
   font-size: 20px;
 }
@@ -192,6 +214,7 @@ export default {
     min-width: 105px;
     height: 45px;
   }
+
   .g-span {
     width: 13%;
   }
@@ -202,41 +225,51 @@ export default {
   .css-button-sliding-to-left--blue {
     font-size: 18px;
     height: 50px;
-    border:none;
+    border: none;
     min-width: fit-content;
   }
+
   .css-button-sliding-to-left--blue:after {
-   background-color: #21343b;
+    background-color: #21343b;
   }
-  .btns{
-    justify-content:space-evenly;
+
+  .btns {
+    justify-content: space-evenly;
   }
-  .english1{
+
+  .english1 {
     display: none;
   }
-  .Goo-p{
-    display:none;
+
+  .Goo-p {
+    display: none;
   }
-  .title{
+
+  .title {
     font-size: 30px;
   }
-  .right-side{
+
+  .right-side {
     width: 100%;
     /*height: fit-content;*/
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
+
   .banner {
     width: 100%;
     /*min-height: min-content;*/
   }
-  .banner{
+
+  .banner {
     height: 100%;
     background-color: #21343b;
   }
-  .right-side{
+
+  .right-side {
     height: fit-content;
   }
+
   .g-span {
     width: 85%;
   }

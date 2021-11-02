@@ -14,20 +14,26 @@ const createStore = () => {
         return false;
       },
       authenticateUser(context, payload) {
+        console.log(payload);
         let authUrl = "login url";
         let fd;
         if (payload.isSignUp) {
           authUrl = "signup url";
           fd = new FormData();
           fd.append("image", payload.image, payload.image.name);
-          fd.append("name", payload.user.name);
-          fd.append("username", payload.user.username);
-          fd.append("password", payload.user.password);
-          fd.append("email", payload.user.email);
-          fd.append("gender", payload.user.gender);
-          fd.append("age", payload.user.age);
-          fd.append("city", payload.user.country);
-          fd.append("name", payload.user.city);
+          fd.append("name", payload.name.val);
+          fd.append("username", payload.username.val);
+          fd.append("password", payload.password.val);
+          fd.append("email", payload.email.val);
+          fd.append("gender", payload.gender.val);
+          fd.append("age", payload.age.val);
+          fd.append("city", payload.country.val);
+          fd.append("name", payload.city.val);
+        }else{
+          fd = {
+            usernameOrEmail: payload.usernameOrEmail,
+            password: payload.password
+          }
         }
         return this.$axios.$post(authUrl, fd, {
           onUploadProgress: uploadEvent => {

@@ -13,8 +13,8 @@
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <SignUp v-if="isSignUp" @toggle="toggle" @signUp="signUp" @warning="warn"/>
-    <Login v-else @toggle="toggle" @submit="login" @warning="warn" />
+    <SignUp v-if="isSignUp" @toggle="toggle" @warning="warn"/>
+    <Login v-else @toggle="toggle" @warning="warn" />
   </div>
 </template>
 
@@ -31,24 +31,12 @@ export default {
     };
   },
   methods: {
-    signUp(user){
-      this.$store.dispatch("authenticateUser",{
-        ...user,
-        isSignUp: this.isSignUp
-      });
-    },
-    login(user){
-      this.$store.dispatch("authenticateUser", {
-        ...user,
-        isSignUp: this.isSignUp
-      })
-    },
     warn(){
       Swal.fire({
         title: 'Sorry!',
-        text: 'this functionality is not supported in your country ( be goshadi ma rabti nadare :) )',
+        text: 'this functionality is not supported in your country',
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'OK'
       })
     },
     toggle(){

@@ -1,56 +1,64 @@
 <template>
   <div class="banner w-2/3">
     <form @submit.prevent="Submit">
-    <div class="right-side h-screen flex flex-col">
-      <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
-        src="../../assets/pics/contents.png" alt="english" width="30" />)
-      </div>
-      <h1 class="title justify-self-center">Create Account</h1>
-      <div class="flex flex-row justify-between btns">
-        <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
-          <div class="flex flex-row">
-            <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
-            <p class="Goo-p">continue with Google</p>
+      <div class="right-side h-screen flex flex-col">
+        <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
+          src="../../assets/pics/contents.png" alt="english" width="30" />)
+        </div>
+        <h1 class="title justify-self-center">Create Account</h1>
+        <div class="flex flex-row justify-between btns">
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
+            <div class="flex flex-row">
+              <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
+              <p class="Goo-p">continue with Google</p>
+            </div>
+          </div>
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
+            <div class="flex flex-row">
+              <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
+              <p class="Goo-p">continue with facebook</p>
+            </div>
           </div>
         </div>
-        <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
-          <div class="flex flex-row">
-            <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
-            <p class="Goo-p">continue with facebook</p>
+        <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
+        <div class="flex flex-row justify-start">
+          <h1 class="txt-avatar">Add Your Avatar</h1>
+          <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected">
+        </div>
+        <div class="flex flex-row justify-between mt-7">
+          <input type="text" v-model.trim="user.name.val" id="name-input" placeholder="Name" required
+                 :class="{input_box: user.name.isValid, invalid: !user.name.isValid, 'ml-7': true}">
+          <input type="text" v-model.trim="user.username.val" placeholder="Username" @change="isUsernameUniqe" required
+                 style="width:39%;"
+                 :class="{input_box: user.username.isValid, invalid: !user.username.isValid, 'mr-10': true}">
+        </div>
+        <div class="flex flex-row justify-between mt-7">
+          <input type="email" v-model.trim="user.email.val" placeholder="Email" @change="isEmailUniqe" required
+                 :class="{input_box: user.email.isValid, invalid: !user.email.isValid, 'ml-7': true}">
+          <div class="flex flex-row justify-around">
+            <input type="text" v-model.trim="user.gender.val" placeholder="Gender" required
+                   :class="{input_box: user.gender.isValid, invalid: !user.gender.isValid}">
+            <input type="number" v-model.trim="user.age.val" placeholder="Age" required
+                   :class="{input_box: user.age.isValid, invalid: !user.age.isValid, 'mr-2': true}">
           </div>
         </div>
-      </div>
-      <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
-      <div class="flex flex-row justify-start">
-        <h1 class="txt-avatar">Add Your Avatar</h1>
-        <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected">
-      </div>
-      <div class="flex flex-row justify-between mt-7">
-        <input type="text" v-model.trim="user.name.val" placeholder="Name" required class="input_box ml-7">
-        <p v-if="!user.name.isValid">Firstname must not be empty.</p>
-        <input type="text" v-model.trim="user.username.val" placeholder="Username" @change="isUsernameUniqe" required style="width:39%;" class="input_box mr-10">
-      </div>
-      <div class="flex flex-row justify-between mt-7">
-        <input type="email" v-model.trim="user.email.val" placeholder="Email" @change="isEmailUniqe" required class="input_box ml-7">
-        <div class="flex flex-row justify-around">
-          <input type="text" v-model.trim="user.gender.val" placeholder="Gender" required class="input_box">
-          <input type="number" v-model.trim="user.age.val" placeholder="Age" required class="input_box mr-2">
+        <div class="flex flex-row justify-between mt-7">
+          <input type="password" v-model.trim="user.password.val" placeholder="Password" required
+                 :class="{input_box: user.password.isValid, invalid: !user.password.isValid, 'ml-7': true}">
+          <div class="flex flex-row justify-around">
+            <input type="text" v-model.trim="user.country.val" placeholder="Country" required
+                   :class="{input_box: user.country.isValid, invalid: !user.country.isValid}">
+            <input type="text" v-model.trim="user.city.val" placeholder="City" required
+                   :class="{input_box: user.city.isValid, invalid: !user.city.isValid, 'mr-2': true}">
+          </div>
+        </div>
+        <button class="css-button-sliding-to-left--green place-self-center" type="submit">
+          Create Account
+        </button>
+        <div class="log">
+          Already have an account ? <span @click="$emit('toggle')" class="login">Login</span>
         </div>
       </div>
-      <div class="flex flex-row justify-between mt-7">
-        <input type="password" v-model.trim="user.password.val" placeholder="Password" required class="input_box ml-7">
-        <div class="flex flex-row justify-around">
-          <input type="text" v-model.trim="user.country.val" placeholder="Country" required class="input_box">
-          <input type="text" v-model.trim="user.city.val" placeholder="City" required class="input_box mr-2">
-        </div>
-      </div>
-      <button class="css-button-sliding-to-left--green place-self-center"  type="submit">
-        Create Account
-      </button>
-      <div class="log">
-        Already have an account ? <span @click="$emit('toggle')" class="login">Login</span>
-      </div>
-    </div>
     </form>
   </div>
 </template>
@@ -58,57 +66,66 @@
 <script>
 export default {
   name: "SignIn",
-  data(){
-    return{
+  data() {
+    return {
       selectedFile: null,
-      user:{
+      user: {
         name: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         username: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         password: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         email: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         gender: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         age: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         city: {
-          val:'',
-          isValid:true
+          val: "",
+          isValid: true
         },
         country: {
-          val:'',
-          isValid:true
-        },
-      }
-    }
+          val: "",
+          isValid: true
+        }
+      },
+      formIsValid: true
+    };
   },
-  methods:{
-    onFileSelected(event){
+  methods: {
+    onFileSelected(event) {
       this.selectedFile = event.target.files[0];
     },
-    isUsernameUniqe(event){
+    isUsernameUniqe(event) {
       console.log(event);
     },
-    isEmailUniqe(event){
+    isEmailUniqe(event) {
       console.log(event);
     },
-    Submit(){
-      this.$emit('signUp',{ ...this.user , image: this.selectedFile})
+    Submit() {
+      this.Validate();
+      console.log({ ...this.user, image: this.selectedFile });
+      this.$store.dispatch("authenticateUser",{
+        ...user,
+        isSignUp: this.isSignUp
+      });
+      },
+    Validate(){
+
     }
   }
 };
@@ -120,6 +137,14 @@ export default {
   border-radius: 50px 0 0 50px;
   padding: 2%;
   z-index: 1;
+}
+
+.invalid {
+  border: 1px solid red;
+  background: #21343b;
+  width: 35%;
+  color: #fff;
+  font-size: 20px;
 }
 
 .btns {
@@ -246,15 +271,17 @@ export default {
   color: #fff;
   font-size: 20px;
 }
-.login{
+
+.login {
   margin-left: 2%;
   color: blue;
   cursor: pointer;
 }
-.log{
+
+.log {
   margin-top: 2%;
   display: flex;
-  width:70%;
+  width: 70%;
   align-self: center;
   font-size: 20px;
 }
@@ -266,9 +293,11 @@ export default {
     min-width: 105px;
     height: 45px;
   }
+
   .g-span {
     width: 13%;
   }
+
   .txt-avatar {
     font-size: 18px;
   }
@@ -280,43 +309,54 @@ export default {
   .css-button-sliding-to-left--blue {
     font-size: 18px;
     height: 50px;
-    border:none;
+    border: none;
     min-width: fit-content;
   }
+
   .css-button-sliding-to-left--blue:after {
     background-color: #21343b;
   }
-  .btns{
-    justify-content:space-evenly;
+
+  .btns {
+    justify-content: space-evenly;
   }
-  .english1{
+
+  .english1 {
     display: none;
   }
-  .Goo-p{
-    display:none;
+
+  .Goo-p {
+    display: none;
   }
-  .right-side{
+
+  .right-side {
     width: 100%;
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
-.banner{
-  width: 100%;
-}
+
+  .banner {
+    width: 100%;
+  }
+
   .g-span {
     width: 85%;
   }
+
   .txt-avatar {
     font-size: 16px;
   }
+
   .title {
     font-size: 30px;
   }
-  .banner{
+
+  .banner {
     height: 100%;
     background-color: #21343b;
   }
-  .right-side{
+
+  .right-side {
     height: fit-content;
   }
 }
@@ -326,14 +366,17 @@ export default {
   .txt-avatar {
     font-size: 15px;
   }
-  .log{
+
+  .log {
     font-size: 12px;
     display: flex;
   }
-  .login{
+
+  .login {
     margin-left: 2%;
   }
-  .avatar{
+
+  .avatar {
     width: 85%;
   }
 }
