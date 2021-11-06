@@ -63,7 +63,9 @@ export default {
       this.$store.dispatch("authenticateUser", {
         ...this.user,
         isSignUp: false
-      })
+      }).catch(response => {
+        console.log(response);
+      });
     }
   }
 };

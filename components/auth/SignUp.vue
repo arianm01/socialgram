@@ -103,7 +103,7 @@ export default {
           isValid: true
         }
       },
-      formIsValid: true
+      formIsinValid: ""
     };
   },
   methods: {
@@ -125,7 +125,26 @@ export default {
       });
       },
     Validate(){
-
+      this.formIsValid = true;
+      if (this.user.name.val.match(/^[A-Za-z]+$/)) {
+        this.user.name.isValid = false;
+        this.formIsinValid = "your name must be only letters";
+      }
+      if (this.user.country.val.match(/^[A-Za-z]+$/)) {
+        this.user.country.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.user.city.val.match(/^[A-Za-z]+$/)) {
+        this.user.city.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.user.age.val || this.user.age.val < 0) {
+        this.rate.isValid = false;
+        this.formIsValid = false;
+      }if (this.user.gender.val.length === "male") {
+        this.areas.isValid = false;
+        this.formIsValid = false;
+      }
     }
   }
 };

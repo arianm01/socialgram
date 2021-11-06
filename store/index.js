@@ -15,7 +15,7 @@ const createStore = () => {
       },
       authenticateUser(context, payload) {
         console.log(payload);
-        let authUrl = "login url";
+        let authUrl = process.env.baseURL+'login';
         let fd;
         if (payload.isSignUp) {
           authUrl = "signup url";
@@ -42,14 +42,18 @@ const createStore = () => {
         }).then(res => {
           if (!res.ok) {
             // show some error
-            return;
+            throw new Error(res.message);
           }
           if (!payload.isSignUp) {
             context.commit("setToken", res.token);
             localStorage.setItem("token", res.token);
             localStorage.setItem("tokenExpiration", new Date().getDate() + Number.parseInt(res.expireDate) * 1000);
           }
-        }).catch(e => console.log(e));
+        })
+        //   .catch(e => {
+        //   console.log(e);
+        //   throw e;
+        // });
       }
     },
     getters: {

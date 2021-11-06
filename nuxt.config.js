@@ -57,6 +57,6 @@ export default {
   build: {
   },
   env: {
-    baseURL: process.env.BASE_URL || "",
+    baseURL: "http://localhost:8000/",
   }
 }
