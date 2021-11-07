@@ -65,7 +65,7 @@ export default {
         ...this.user,
         isSignUp: false
       }).then(response => {
-        console.log(response);
+        this.$router.push('/');
         // if (!response.ok) {
         //   throw new Error(response);
         // }else {
