@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
   name: "Login",
   data() {
@@ -59,12 +60,32 @@ export default {
   },
   methods: {
     onLogin() {
-      console.log(this.user);
+      // console.log(this.user);
       this.$store.dispatch("authenticateUser", {
         ...this.user,
         isSignUp: false
-      }).catch(response => {
+      }).then(response => {
         console.log(response);
+        // if (!response.ok) {
+        //   throw new Error(response);
+        // }else {
+        //   console.log(response.response.data);
+        // }
+        // if (!payload.isSignUp) {
+        //   context.commit("setToken", res.token);
+        //   localStorage.setItem("token", res.token);
+        //   localStorage.setItem("tokenExpiration", new Date().getDate() + Number.parseInt(res.expireDate) * 1000);
+        //   return res;
+        // }
+      }).catch(response => {
+          if(response.response)
+            Swal.fire(
+              {
+                title: 'sth went wrong :(',
+                text: response.response.data.description,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
       });
     }
   }

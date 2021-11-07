@@ -1,11 +1,20 @@
 import Vuex from "vuex";
-
+let timer;
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      token: null
+      token: null,
+      didAutoLogout: false
     },
-    mutations: {},
+    mutations: {
+      setToken(state, payload) {
+        state.token = payload;
+        state.didAutoLogout = false;
+      },
+      setAutoLogout(state){
+        state.didAutoLogout = true;
+      }
+    },
     actions: {
       nuxtServerInit(vuexContext, context) {
 
@@ -15,10 +24,10 @@ const createStore = () => {
       },
       authenticateUser(context, payload) {
         console.log(payload);
-        let authUrl = process.env.baseURL+'login';
+        let authUrl = process.env.baseURL + "login";
         let fd;
         if (payload.isSignUp) {
-          authUrl = "signup url";
+          authUrl = process.env.baseURL + "signup";
           fd = new FormData();
           fd.append("image", payload.image, payload.image.name);
           fd.append("name", payload.name.val);
@@ -29,36 +38,46 @@ const createStore = () => {
           fd.append("age", payload.age.val);
           fd.append("city", payload.country.val);
           fd.append("name", payload.city.val);
-        }else{
+        } else {
           fd = {
-            usernameOrEmail: payload.usernameOrEmail,
-            password: payload.password
-          }
+            username: payload.UsernameOrEmail.val,
+            password: payload.password.val
+          };
         }
-        return this.$axios.$post(authUrl, fd, {
-          onUploadProgress: uploadEvent => {
-            // console.log('upload: '+ Math.round(uploadEvent.loaded / uploadEvent.total * 100) + "%");
-          }
-        }).then(res => {
-          if (!res.ok) {
-            // show some error
-            throw new Error(res.message);
-          }
-          if (!payload.isSignUp) {
-            context.commit("setToken", res.token);
-            localStorage.setItem("token", res.token);
-            localStorage.setItem("tokenExpiration", new Date().getDate() + Number.parseInt(res.expireDate) * 1000);
-          }
-        })
-        //   .catch(e => {
-        //   console.log(e);
-        //   throw e;
-        // });
+        const request = this.$axios.$post(authUrl, fd);
+        request.then(response => {
+          console.log(new Date().getTime());
+          timer = setTimeout(function() {
+            context.dispatch('autoLogout');
+          }, (+response.exp*1000-new Date().getTime()));
+          localStorage.setItem("token", response.access_token);
+          localStorage.setItem("tokenExpiration", Number.parseInt(response.exp));
+          context.commit("setToken", response.access_token);
+        });
+        return request;
+      },
+      logout(context) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiration');
+
+        clearTimeout(timer);
+
+        context.commit('setToken', null);
+      },
+      autoLogout(context) {
+        context.dispatch('logout');
+        context.commit('setAutoLogout');
       }
     },
     getters: {
-      isAuthenticated() {
-        return false;
+      isAuthenticated(state) {
+        return !!state.token;
+      },
+      token(state) {
+        return state.token;
+      },
+      didAutoLogout(state) {
+        return state.didAutoLogout;
       }
     }
   });

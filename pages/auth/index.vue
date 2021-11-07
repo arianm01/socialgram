@@ -35,7 +35,7 @@ export default {
       Swal.fire({
         title: 'Sorry!',
         text: 'this functionality is not supported in your country',
-        icon: 'error',
+        icon: 'warning',
         confirmButtonText: 'OK'
       })
     },
