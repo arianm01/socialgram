@@ -126,23 +126,33 @@ export default {
       },
     Validate(){
       this.formIsValid = true;
-      if (this.user.name.val.match(/^[A-Za-z]+$/)) {
+      if (!this.user.name.val.match(/^[A-Za-z]+$/)) {
         this.user.name.isValid = false;
         this.formIsinValid = "your name must be only letters";
       }
-      if (this.user.country.val.match(/^[A-Za-z]+$/)) {
+      if (!this.user.country.val.match(/^[A-Za-z]+$/)) {
         this.user.country.isValid = false;
         this.formIsValid = false;
       }
-      if (this.user.city.val.match(/^[A-Za-z]+$/)) {
+      if (!this.user.city.val.match(/^[A-Za-z]+$/)) {
         this.user.city.isValid = false;
         this.formIsValid = false;
       }
       if (!this.user.age.val || this.user.age.val < 0) {
-        this.rate.isValid = false;
+        this.user.rate.isValid = false;
         this.formIsValid = false;
-      }if (this.user.gender.val.length === "male") {
-        this.areas.isValid = false;
+      }if (!(this.user.gender.val === "male" || this.user.gender.val === "female")) {
+        this.user.gender.isValid = false;
+        this.formIsValid = false;
+      }if (!this.user.password.val.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)) {
+        this.user.password.isValid = false;
+        this.formIsValid = false;
+      } if (!this.user.email.val.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+        this.user.email.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.user.username.val.match(/^(?=.{3,})/)){
+        this.user.username.isValid = false;
         this.formIsValid = false;
       }
     }

@@ -9,6 +9,6 @@
 export default {
   methods: {
   },
-  middleware: ["check-auth", "auth"],
+  middleware: 'auth',
 }
 </script>

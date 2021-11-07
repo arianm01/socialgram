@@ -4,7 +4,8 @@
 
 <script>
 export default {
-  name: "default.vue"
+  name: "default.vue",
+  middleware: ['check-auth']
 };
 </script>
 

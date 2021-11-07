@@ -66,17 +66,6 @@ export default {
         isSignUp: false
       }).then(response => {
         this.$router.push('/');
-        // if (!response.ok) {
-        //   throw new Error(response);
-        // }else {
-        //   console.log(response.response.data);
-        // }
-        // if (!payload.isSignUp) {
-        //   context.commit("setToken", res.token);
-        //   localStorage.setItem("token", res.token);
-        //   localStorage.setItem("tokenExpiration", new Date().getDate() + Number.parseInt(res.expireDate) * 1000);
-        //   return res;
-        // }
       }).catch(response => {
           if(response.response)
             Swal.fire(
