@@ -193,39 +193,48 @@ export default {
       }
     },
     Validate() {
+      this.formIsinValid = ""
       if (!this.user.name.val.match(/^[A-Za-z ]+$/)) {
         this.user.name.isValid = false;
         this.formIsinValid = "your name must be only letters";
-      }
-      if (!this.user.country.val.match(/^[A-Za-z]+$/)) {
-        this.user.country.isValid = false;
-        this.formIsinValid = "your name must be only letters";
-      }
-      if (!this.user.city.val.match(/^[A-Za-z]+$/)) {
-        this.user.city.isValid = false;
-        this.formIsinValid = "your name must be only letters";
-      }
-      if (!this.user.age.val || this.user.age.val < 0) {
-        this.user.rate.isValid = false;
-        this.formIsinValid = "your name must be only letters";
-      }
-      if (!(this.user.gender.val === "male" || this.user.gender.val === "female")) {
-        this.user.gender.isValid = false;
-        this.formIsinValid = "your name must be only letters";
-      }
-      if (!this.user.password.val.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/) || !this.user.password.isValid) {
-        this.user.password.isValid = false;
-        this.formIsinValid = "your name must be only letters";
-      }
-      if (!this.user.email.val.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-        this.user.email.isValid = false;
-        this.formIsinValid = "your name must be only letters";
+        return false;
       }
       if (!this.user.username.val.match(/^(?=.{3,})/) || !this.user.username.isValid) {
         this.user.username.isValid = false;
-        this.formIsinValid = "your name must be only letters";
+        this.formIsinValid = "this username is not acceptable";
+        return false;
       }
-      return !!this.formIsinValid;
+      if (!this.user.email.val.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+        this.user.email.isValid = false;
+        this.formIsinValid = "this email address is not acceptable";
+        return false;
+      }
+      if (!this.user.age.val || this.user.age.val < 0) {
+        this.user.age.isValid = false;
+        this.formIsinValid = "your age must be a positive number";
+        return false;
+      }
+      if (!(this.user.gender.val === "male" || this.user.gender.val === "female")) {
+        this.user.gender.isValid = false;
+        this.formIsinValid = "your gender can be male or female";
+        return false;
+      }
+      if (!this.user.password.val.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/) || !this.user.password.isValid) {
+        this.user.password.isValid = false;
+        this.formIsinValid = "your password must contain a capital letter, small letter, number, a sign and be at least 8 character";
+        return false;
+      }
+      if (!this.user.country.val.match(/^[A-Za-z]+$/)) {
+        this.user.country.isValid = false;
+        this.formIsinValid = "your country name must be only letters";
+        return false;
+      }
+      if (!this.user.city.val.match(/^[A-Za-z]+$/)) {
+        this.user.city.isValid = false;
+        this.formIsinValid = "your city name must be only letters";
+        return false;
+      }
+      return true;
     }
   }
 };
