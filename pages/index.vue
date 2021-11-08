@@ -1,7 +1,14 @@
 <template>
-  <Tutorial/>
+  <div>
+    <h1>Dash</h1>
+
+  </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+  },
+  middleware: 'auth',
+}
 </script>
