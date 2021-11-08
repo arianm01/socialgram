@@ -1,19 +1,19 @@
 <template>
   <div class="banner w-2/3">
-    <form @submit.prevent="$emit('submit')">
+    <form @submit.prevent="onLogin">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
           src="../../assets/pics/contents.png" alt="english" width="30" />)
         </div>
         <h1 class="title">Login to your Account</h1>
         <div class="flex flex-row justify-between btns">
-          <div class="css-button-sliding-to-left--blue">
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
               <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
               <p class="Goo-p">continue with Google</p>
             </div>
           </div>
-          <div class="css-button-sliding-to-left--blue">
+          <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
               <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
               <p class="Goo-p">continue with facebook</p>
@@ -22,10 +22,12 @@
         </div>
         <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
         <div class="flex flex-row justify-center mt-7">
-          <input type="text" placeholder="Username or email" style="width:50%;" class="input_box">
+          <input type="text" required v-model.trim="user.UsernameOrEmail.val" placeholder="Username or email"
+                 style="width:50%;" :class="{input_box: user.UsernameOrEmail.isValid, invalid: !user.UsernameOrEmail.isValid}">
         </div>
         <div class="flex flex-row justify-center mt-7">
-          <input type="password" placeholder="Password" style="width:50%;" class="input_box">
+          <input type="password" required v-model.trim="user.password.val" placeholder="Password" style="width:50%;"
+                 :class="{input_box: user.password.isValid, invalid: !user.password.isValid}">
         </div>
         <button class="css-button-sliding-to-left--green place-self-center" type="submit">
           Login
@@ -39,8 +41,43 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
-  name: "Login"
+  name: "Login",
+  data() {
+    return {
+      user: {
+        UsernameOrEmail: {
+          val: "",
+          isValid: true
+        },
+        password: {
+          val: "",
+          isValid: true
+        }
+      }
+    };
+  },
+  methods: {
+    onLogin() {
+      // console.log(this.user);
+      this.$store.dispatch("authenticateUser", {
+        ...this.user,
+        isSignUp: false
+      }).then(response => {
+        this.$router.push('/');
+      }).catch(response => {
+          if(response.response)
+            Swal.fire(
+              {
+                title: 'sth went wrong :(',
+                text: response.response.data.description,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+      });
+    }
+  }
 };
 </script>
 
@@ -58,7 +95,7 @@ export default {
 }
 
 .title {
- text-align: center;
+  text-align: center;
   align-self: center;
   font-size: 35px;
 }
@@ -162,12 +199,22 @@ export default {
   color: #fff;
   font-size: 20px;
 }
-.login{
+
+.invalid {
+  border: 1px solid red;
+  background: #21343b;
+  width: 35%;
+  color: #fff;
+  font-size: 20px;
+}
+
+.login {
   color: blue;
   cursor: pointer;
 }
-.log{
-  width:70%;
+
+.log {
+  width: 70%;
   align-self: center;
   font-size: 20px;
 }
@@ -179,6 +226,7 @@ export default {
     min-width: 105px;
     height: 45px;
   }
+
   .g-span {
     width: 13%;
   }
@@ -189,41 +237,51 @@ export default {
   .css-button-sliding-to-left--blue {
     font-size: 18px;
     height: 50px;
-    border:none;
+    border: none;
     min-width: fit-content;
   }
+
   .css-button-sliding-to-left--blue:after {
-   background-color: #21343b;
+    background-color: #21343b;
   }
-  .btns{
-    justify-content:space-evenly;
+
+  .btns {
+    justify-content: space-evenly;
   }
-  .english1{
+
+  .english1 {
     display: none;
   }
-  .Goo-p{
-    display:none;
+
+  .Goo-p {
+    display: none;
   }
-  .title{
+
+  .title {
     font-size: 30px;
   }
-  .right-side{
+
+  .right-side {
     width: 100%;
     /*height: fit-content;*/
     min-height: 100%;
     border-radius: 50px 50px 0 0;
   }
+
   .banner {
     width: 100%;
     /*min-height: min-content;*/
   }
-  .banner{
+
+  .banner {
     height: 100%;
     background-color: #21343b;
   }
-  .right-side{
+
+  .right-side {
     height: fit-content;
   }
+
   .g-span {
     width: 85%;
   }

@@ -13,29 +13,35 @@
         <img src="../../assets/pics/Saly-10(1).png" alt="saly">
       </div>
     </div>
-    <SignUp v-if="isLogin" @toggle="toggle"/>
-    <Login v-else @toggle="toggle" />
+    <SignUp v-if="isSignUp" @toggle="toggle" @warning="warn"/>
+    <Login v-else @toggle="toggle" @warning="warn" />
   </div>
 </template>
 
 <script>
 import SignUp from "~/components/auth/SignUp";
 import Login from "~/components/auth/Login";
+import Swal from 'sweetalert2';
 export default {
   name: "index",
   components: { SignUp, Login },
+  middleware: 'dash',
   data() {
     return {
-      isLogin: true
+      isSignUp: false
     };
   },
   methods: {
-    signInUser(){
-
+    warn(){
+      Swal.fire({
+        title: 'Sorry!',
+        text: 'this functionality is not supported in your country',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      })
     },
     toggle(){
-      console.log('t');
-      this.isLogin = !this.isLogin;
+      this.isSignUp = !this.isSignUp;
     }
   },
 };
@@ -50,18 +56,12 @@ export default {
   padding: 2%;
   background-color: #b0d8da;
 }
-
-.left-side img{
-  /*margin-bottom: 30%;*/
-}
 .left-side-image{
   margin-top: -50px;
   top: -50px;
 }
 
 .left-side-call {
-  /*padding-top: 15%;*/
-  /*margin-left: 10%;*/
   padding-top: 20%;
   margin-bottom: 0;
 }
@@ -77,7 +77,6 @@ export default {
   /* For mobile phones: */
   .main{
     display: grid;
-    /*height:100%;*/
   }
   .left-side-call {
     padding-top:10%;
