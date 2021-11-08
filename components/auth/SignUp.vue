@@ -23,11 +23,12 @@
         <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
         <div class="flex flex-row justify-start">
           <h1 class="txt-avatar">Add Your Avatar</h1>
-          <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected">
+          <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected" required>
         </div>
         <div class="flex flex-row justify-between mt-7">
           <input type="text" v-model.trim="user.name.val" id="name-input" placeholder="Name" required
-                 :class="{input_box: user.name.isValid, invalid: !user.name.isValid, 'ml-7': true}">
+                 :class="{input_box: user.name.isValid, invalid: !user.name.isValid, 'ml-7': true}"
+                 @blur="clearValidity('name')">
           <input type="text" v-model.trim="user.username.val" placeholder="Username" @change="isUsernameUniqe" required
                  style="width:39%;"
                  :class="{input_box: user.username.isValid, invalid: !user.username.isValid, 'mr-10': true}">
@@ -37,19 +38,24 @@
                  :class="{input_box: user.email.isValid, invalid: !user.email.isValid, 'ml-7': true}">
           <div class="flex flex-row justify-around">
             <input type="text" v-model.trim="user.gender.val" placeholder="Gender" required
-                   :class="{input_box: user.gender.isValid, invalid: !user.gender.isValid}">
+                   :class="{input_box: user.gender.isValid, invalid: !user.gender.isValid}"
+                   @blur="clearValidity('gender')">
             <input type="number" v-model.trim="user.age.val" placeholder="Age" required
-                   :class="{input_box: user.age.isValid, invalid: !user.age.isValid, 'mr-2': true}">
+                   :class="{input_box: user.age.isValid, invalid: !user.age.isValid, 'mr-2': true}"
+                   @blur="clearValidity('age')">
           </div>
         </div>
         <div class="flex flex-row justify-between mt-7">
           <input type="password" v-model.trim="user.password.val" placeholder="Password" required
-                 :class="{input_box: user.password.isValid, invalid: !user.password.isValid, 'ml-7': true}">
+                 :class="{input_box: user.password.isValid, invalid: !user.password.isValid, 'ml-7': true}"
+                 @blur="clearValidity('password')">
           <div class="flex flex-row justify-around">
             <input type="text" v-model.trim="user.country.val" placeholder="Country" required
-                   :class="{input_box: user.country.isValid, invalid: !user.country.isValid}">
+                   :class="{input_box: user.country.isValid, invalid: !user.country.isValid}"
+                   @blur="clearValidity('country')">
             <input type="text" v-model.trim="user.city.val" placeholder="City" required
-                   :class="{input_box: user.city.isValid, invalid: !user.city.isValid, 'mr-2': true}">
+                   :class="{input_box: user.city.isValid, invalid: !user.city.isValid, 'mr-2': true}"
+                   @blur="clearValidity('city')">
           </div>
         </div>
         <button class="css-button-sliding-to-left--green place-self-center" type="submit">
@@ -64,6 +70,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   name: "SignIn",
   data() {
@@ -91,7 +99,7 @@ export default {
           isValid: true
         },
         age: {
-          val: "",
+          val: null,
           isValid: true
         },
         city: {
@@ -107,54 +115,117 @@ export default {
     };
   },
   methods: {
+    clearValidity(input) {
+      this.user[input].isValid = true;
+    },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
     },
     isUsernameUniqe(event) {
-      console.log(event);
+      this.user.username.isValid = true;
+      this.$store.dispatch("authenticateUser", {
+        UsernameOrEmail: {
+          val: event.path[0].value
+        },
+        password: {
+          val: "notImportant"
+        },
+        isSignUp: false
+      }).then()
+        .catch(res => {
+          if (res.response.data.description.includes("password")) {
+            this.user.username.isValid = false;
+          }
+        });
     },
     isEmailUniqe(event) {
-      console.log(event);
+      this.user.email.isValid = true;
+      this.$store.dispatch("authenticateUser", {
+        UsernameOrEmail: {
+          val: event.path[0].value
+        },
+        password: {
+          val: "notImportant"
+        },
+        isSignUp: false
+      }).then()
+        .catch(res => {
+          if (res.response.data.description.includes("password")) {
+            this.user.email.isValid = false;
+          }
+        });
     },
     Submit() {
-      this.Validate();
-      console.log({ ...this.user, image: this.selectedFile });
-      this.$store.dispatch("authenticateUser",{
-        ...user,
-        isSignUp: this.isSignUp
-      });
-      },
-    Validate(){
-      this.formIsValid = true;
-      if (!this.user.name.val.match(/^[A-Za-z]+$/)) {
+      if (this.Validate()) {
+        console.log({ ...this.user, image: this.selectedFile });
+        this.$store.dispatch("authenticateUser", {
+          ...this.user,
+          image: this.selectedFile,
+          isSignUp: true
+        }).then(response => {
+          Swal.fire(
+            {
+              title: 'welcome ' + response.name,
+              text: 'you have signed up successfully',
+              icon: "success",
+              confirmButtonText: "let's go"
+            });
+          this.$emit('toggle');
+        }).catch(response => {
+            if (response.response)
+              Swal.fire(
+                {
+                  title: 'sth went wrong :(',
+                  text: response.response.data.description,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
+          });
+      }else{
+        Swal.fire(
+          {
+            title: 'sth went wrong :(',
+            text: this.formIsinValid,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          }
+        )
+      }
+    },
+    Validate() {
+      if (!this.user.name.val.match(/^[A-Za-z ]+$/)) {
         this.user.name.isValid = false;
         this.formIsinValid = "your name must be only letters";
       }
       if (!this.user.country.val.match(/^[A-Za-z]+$/)) {
         this.user.country.isValid = false;
-        this.formIsValid = false;
+        this.formIsinValid = "your name must be only letters";
       }
       if (!this.user.city.val.match(/^[A-Za-z]+$/)) {
         this.user.city.isValid = false;
-        this.formIsValid = false;
+        this.formIsinValid = "your name must be only letters";
       }
       if (!this.user.age.val || this.user.age.val < 0) {
         this.user.rate.isValid = false;
-        this.formIsValid = false;
-      }if (!(this.user.gender.val === "male" || this.user.gender.val === "female")) {
+        this.formIsinValid = "your name must be only letters";
+      }
+      if (!(this.user.gender.val === "male" || this.user.gender.val === "female")) {
         this.user.gender.isValid = false;
-        this.formIsValid = false;
-      }if (!this.user.password.val.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)) {
+        this.formIsinValid = "your name must be only letters";
+      }
+      if (!this.user.password.val.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/) || !this.user.password.isValid) {
         this.user.password.isValid = false;
-        this.formIsValid = false;
-      } if (!this.user.email.val.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+        this.formIsinValid = "your name must be only letters";
+      }
+      if (!this.user.email.val.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
         this.user.email.isValid = false;
-        this.formIsValid = false;
+        this.formIsinValid = "your name must be only letters";
       }
-      if (!this.user.username.val.match(/^(?=.{3,})/)){
+      if (!this.user.username.val.match(/^(?=.{3,})/) || !this.user.username.isValid) {
         this.user.username.isValid = false;
-        this.formIsValid = false;
+        this.formIsinValid = "your name must be only letters";
       }
+      return !!this.formIsinValid;
     }
   }
 };

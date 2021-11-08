@@ -37,9 +37,10 @@ const createStore = () => {
           fd.append("password", payload.password.val);
           fd.append("email", payload.email.val);
           fd.append("gender", payload.gender.val);
-          fd.append("age", payload.age.val);
-          fd.append("city", payload.country.val);
-          fd.append("name", payload.city.val);
+          fd.append("age", Number.parseInt(payload.age.val));
+          fd.append("country", payload.country.val);
+          fd.append("city", payload.city.val);
+          console.log(fd);
         } else {
           fd = {
             username: payload.UsernameOrEmail.val,
@@ -48,9 +49,7 @@ const createStore = () => {
         }
         const request = this.$axios.$post(authUrl, fd);
         request.then(response => {
-          if (payload.isSignUp) {
-
-          } else {
+          if (!payload.isSignUp) {
             timer = setTimeout(function() {
               context.dispatch("autoLogout");
             }, (+response.exp * 1000 - new Date().getTime()));
