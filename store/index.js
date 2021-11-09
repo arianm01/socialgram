@@ -96,7 +96,6 @@ const createStore = () => {
         }, expiresIn);
         if (token) {
           context.commit("setToken", token);
-          // context.$router.push('/');
         }
       },
       logout(context) {

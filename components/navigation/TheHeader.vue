@@ -1,6 +1,11 @@
 <template>
-  <div class="header-container">
-    <h1></h1>
+  <div class="header-container flex justify-around">
+    <div class="logo">
+      <img src="~/assets/logo/logo5.png" alt="" width="90%">
+    </div>
+    <div class="search-box">
+
+    </div>
   </div>
 </template>
 
@@ -12,7 +17,10 @@ export default {
 
 <style scoped>
   .header-container {
-    height: 60px;
-    background-color:#21343b;
+    height: 8%;
+    background-color:#242526;
+    padding: 1%;
+  }
+  .logo {
   }
 </style>
