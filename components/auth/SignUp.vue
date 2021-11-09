@@ -250,6 +250,7 @@ export default {
 
 .invalid {
   border: 1px solid red;
+  outline: none;
   background: #21343b;
   width: 35%;
   color: #fff;
@@ -374,6 +375,7 @@ export default {
 
 .input_box {
   background: #21343b;
+  outline: none;
   border-style: none;
   border-bottom: 1px solid white;
   width: 35%;
