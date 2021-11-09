@@ -67,8 +67,7 @@ export default {
         this.$router.push('/');
       }).catch(response => {
           if(response.response)
-            Swal.fire(
-              {
+            Swal.fire({
                 title: 'sth went wrong :(',
                 text: response.response.data.description,
                 icon: 'error',
