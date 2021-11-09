@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  layout: 'app',
   methods: {
   },
   middleware: 'auth',
