@@ -83,7 +83,7 @@ export default {
 
     },
     away() {
-      this.showSearch = !this.showSearch;
+      this.showSearch = false;
     }
   },
   watch: {

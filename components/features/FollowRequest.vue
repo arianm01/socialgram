@@ -2,7 +2,7 @@
   <div>
   <div>
     <img src="../../assets/pics/favorite-3-128.png" class="icon" alt="follow" @click="isMenuOpen = !isMenuOpen" v-if="!isMenuOpen">
-    <img src="../../assets/pics/heart-69-xxl.png" class="icon" v-on-clickaway="away" v-else>
+    <img src="../../assets/pics/heart-69-xxl.png" class="icon"  @click="isMenuOpen = !isMenuOpen" v-on-clickaway="away" v-else>
   </div>
     <transition
       enter-active-class="transition ease-out duration-100"
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     away() {
-      this.isMenuOpen = !this.isMenuOpen;
+      this.isMenuOpen = false;
     }
   },
   watch: {
