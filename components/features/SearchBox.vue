@@ -1,8 +1,44 @@
 <template>
   <div id="autocomplete" class="autocomplete">
     <input type="text" name="search" aria-label="Search" v-model="search" placeholder="Search..">
-    <ul class="autocomplete-result-list"></ul>
+    <transition
+      enter-active-class="transition ease-out duration-100"
+      enter-class="transform opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95"
+    >
+      <div
+        v-if="true"
+        class="absolute mt-2 w-64 rounded-md shadow-lg text-sm overflow-hidden border z-20"
+      >
+        <div
+          class="rounded-md bg-white shadow-xs"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="options-menu"
+        >
+          <div>
+            <div class="bg-gray-100 p-2 flex items-center">
+              <div class="flex">
+                <img
+                  class="h-7 w-7 mr-2 rounded-full self-center"
+                  src="https://fayazz.co/fayaz.jpg"
+                  alt="avatar"
+                />
+                <div class="flex flex-col">
+                  <p class="font-sm text-base">Fayaz Ahmed</p>
+                  <p class="font-sm text-gray-600">fayaz@email.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
+
 </template>
 
 <script>
@@ -10,23 +46,23 @@ export default {
   name: "SearchBox",
   data() {
     return {
-      search: ''
-    }
+      search: ""
+    };
   },
   methods: {
     searcher() {
-      this.$axios.$get(process.env.baseURL+'search/'+this.search+'?page=0',{
+      this.$axios.$get(process.env.baseURL + "search/" + this.search + "?page=0", {
         headers: {
-          'Authorization' : 'Bearer ' + this.$store.getters.token
+          "Authorization": "Bearer " + this.$store.getters.token
         }
       }).then(response => {
         console.log(response);
       });
     }
   },
-  watch:{
-    search(){
-      if(this.search.length > 2){
+  watch: {
+    search() {
+      if (this.search.length > 2) {
         this.searcher();
       }
     }
@@ -83,11 +119,13 @@ input[type=text]:focus {
     padding: 5px 10px;
     background-image: none;
   }
+
   input[type=text]:focus {
     padding: 5px 0;
   }
 }
-@media only screen and (max-width: 420px) {
+
+@media only screen and (max-width: 400px) {
   input[type=text] {
     width: 60px;
     font-size: 12px;
