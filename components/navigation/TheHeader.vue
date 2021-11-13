@@ -1,10 +1,10 @@
 <template>
   <div class="header-container flex justify-evenly shadow-2xl ">
     <div class="self-center">
-      <img src="~/assets/logo/logo5.png" alt="" class="logo">
+      <nuxt-link to="/"><img src="~/assets/logo/logo5.png" alt="" class="logo"></nuxt-link>
     </div>
     <div class="search-box self-center">
-      <input type="text" name="search" placeholder="Search..">
+      <search-box />
     </div>
     <div class="icons flex self-center">
       <img src="../../assets/pics/home-5-128.png" class="icon" alt="Home">
@@ -16,8 +16,10 @@
 </template>
 
 <script>
+import SearchBox from "~/components/features/SearchBox";
 export default {
-  name: "TheHeader"
+  name: "TheHeader",
+  components: { SearchBox }
 };
 </script>
 
@@ -43,29 +45,7 @@ export default {
     margin-left: 20px;
     margin-bottom: 0;
   }
-  input[type=text] {
-    width: 250px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('../../assets/pics/img.png');
-    background-position: 75px 5px;
-    background-repeat: no-repeat;
-    padding: 5px 20px 5px 100px;
-  }
-  input[type=text]:focus {
-    outline: none;
-    padding: 5px 20px 5px 20px;
-    background-image: none;
-  }
   @media only screen and (max-width: 825px) {
-    input[type=text] {
-      width: 100px;
-      padding: 5px 10px;
-      background-image: none;
-    }
 
     .icon {
       height: 22px;
@@ -81,9 +61,6 @@ export default {
       .icon {
         height: 18px;
         width: 18px;
-      }
-      input[type=text]{
-        width: 70px;
       }
       .logo {
         width: 40px;

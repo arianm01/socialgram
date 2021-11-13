@@ -101,9 +101,7 @@ const createStore = () => {
       logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpiration");
-
         clearTimeout(timer);
-
         context.commit("setToken", null);
       },
       autoLogout(context) {
