@@ -2,7 +2,7 @@
   <div>
   <div>
     <img src="../../assets/pics/favorite-3-128.png" class="icon" alt="follow" @click="isMenuOpen = !isMenuOpen" v-if="!isMenuOpen">
-    <img src="../../assets/pics/heart-69-xxl.png" class="icon" v-on-clickaway="away" @click="isMenuOpen = !isMenuOpen" v-else>
+    <img src="../../assets/pics/heart-69-xxl.png" class="icon" v-on-clickaway="away" v-else>
   </div>
     <transition
       enter-active-class="transition ease-out duration-100"
@@ -22,21 +22,26 @@
           aria-orientation="vertical"
           aria-labelledby="options-menu"
         >
-          <div>
-            <div class="p-2 flex items-center">
+          <div v-if="reqList.length > 0" v-for="request in reqList" :key="request.ID">
+            <div class="bg-gray-100 p-2 flex items-center" @click="userProfile">
               <div class="flex">
                 <img
                   class="h-7 w-7 mr-2 rounded-full self-center"
-                  src="https://fayazz.co/fayaz.jpg"
+                  :src="request.image_url"
                   alt="avatar"
                 />
                 <div class="flex flex-col">
-                <p class="font-sm text-base">Fayaz Ahmed</p>
-                  <p class="font-sm text-gray-600">fayaz@email.com</p>
+                  <p class="font-sm text-base">{{request.username}}</p>
+                  <p class="font-sm text-gray-600">{{request.name}}</p>
                 </div>
                 <button>Accept</button>
                 <button>Reject</button>
               </div>
+            </div>
+          </div>
+          <div v-if="reqList.length===0">
+            <div class="bg-gray-100 p-2 flex items-center">
+              there is nothing to show :)
             </div>
           </div>
           <div class="border-t border-gray-100"></div>
@@ -55,12 +60,31 @@ export default {
   },
   data(){
     return {
+      reqList: [],
       isMenuOpen: false
     }
   },
   methods: {
     away() {
       this.isMenuOpen = !this.isMenuOpen;
+    }
+  },
+  watch: {
+    isMenuOpen(){
+      if (this.isMenuOpen){
+        this.$axios.$get(process.env.baseURL + "getRequests/", {
+          headers: {
+            "Authorization": "Bearer " + this.$store.getters.token
+          }
+        }).then(response => {
+          console.log(response);
+          if (response.length === 0){
+            return ;
+          }
+          this.reqList=response;
+          console.log(this.reqList);
+        });
+      }
     }
   }
 };
