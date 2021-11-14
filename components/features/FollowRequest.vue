@@ -14,7 +14,7 @@
     >
       <div
         v-if="isMenuOpen"
-        class="absolute mt-2 w-64 rounded-md shadow-lg text-sm overflow-hidden border z-20"
+        class="absolute mt-2 w-64 rounded-md shadow-lg text-sm overflow-hidden border z-20 pff"
       >
         <div
           class="rounded-md bg-white shadow-xs"
@@ -95,6 +95,11 @@ export default {
   height: 25px;
   width: 25px;
   margin: 5px 10px 0 20px;
+}
+@media only screen and (max-width:1200px) {
+  .pff{
+    right: 0;
+  }
 }
 @media only screen and (max-width: 825px) {
   .icon {

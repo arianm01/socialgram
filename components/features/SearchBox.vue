@@ -11,7 +11,7 @@
     >
       <div
         v-if="showSearch"
-        class="absolute mt-2 w-64 rounded-md shadow-lg text-sm overflow-hidden border z-20"
+        class="absolute mt-2 w-64 rounded-md shadow-lg text-sm overflow-hidden border z-20 pff"
       >
         <div
           class="rounded-md bg-white shadow-xs"
@@ -20,19 +20,21 @@
           aria-labelledby="options-menu"
         >
           <div v-if="searchResult.length > 0" v-for="searchRes in searchResult" :key="searchRes.ID">
-            <div class="bg-gray-100 p-2 flex items-center" @click="userProfile">
-              <div class="flex">
-                <img
-                  class="h-7 w-7 mr-2 rounded-full self-center"
-                  :src="searchRes.image_url"
-                  alt="avatar"
-                />
-                <div class="flex flex-col">
-                  <p class="font-sm text-base">{{ searchRes.username }}</p>
-                  <p class="font-sm text-gray-600">{{ searchRes.name }}</p>
+            <nuxt-link :to="'/profile/'+searchRes.ID">
+              <div class="bg-gray-100 p-2 flex items-center">
+                <div class="flex">
+                  <img
+                    class="h-7 w-7 mr-2 rounded-full self-center"
+                    :src="searchRes.image_url"
+                    alt="avatar"
+                  />
+                  <div class="flex flex-col">
+                    <p class="font-sm text-base">{{ searchRes.username }}</p>
+                    <p class="font-sm text-gray-600">{{ searchRes.name }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </nuxt-link>
           </div>
           <div v-if="searchResult.length===0">
             <div class="bg-gray-100 p-2 flex items-center">
@@ -77,10 +79,6 @@ export default {
         this.searchResult = response;
         console.log(this.searchResult);
       });
-    },
-    userProfile() {
-      //show profile
-
     },
     away() {
       this.showSearch = false;
@@ -160,6 +158,12 @@ input[type=text]:focus {
   input[type=text] {
     width: 60px;
     font-size: 12px;
+  }
+
+  @media only screen and (max-width: 300px) {
+    .pff {
+      right: 0;
+    }
   }
 }
 </style>

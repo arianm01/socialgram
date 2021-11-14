@@ -4,7 +4,11 @@
 
 <script>
 export default {
-  name: "index"
+  name: "index",
+  layout: 'app',
+  created() {
+    console.log(this.$route.params.id);
+  }
 };
 </script>
 
