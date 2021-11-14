@@ -80,7 +80,8 @@ export default {
       this.isProfileOpen = !this.isProfileOpen;
     },
     logout() {
-
+      this.$store.dispatch("logout");
+      this.$router.push("/auth");
     }
   }
 };

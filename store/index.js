@@ -21,9 +21,6 @@ const createStore = () => {
       nuxtServerInit(vuexContext, context) {
 
       },
-      initAuth(vuexContext, req) {
-        return false;
-      },
       authenticateUser(context, payload) {
         console.log(payload);
         let authUrl = process.env.baseURL + "login";
@@ -101,6 +98,8 @@ const createStore = () => {
       logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpiration");
+        Cookie.remove("jwt");
+        Cookie.remove("tokenExpiration");
         clearTimeout(timer);
         context.commit("setToken", null);
       },
