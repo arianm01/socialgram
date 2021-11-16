@@ -16,6 +16,7 @@
     "nuxt": "^2.15.3",
     "sweetalert2": "^11.1.9",
     "vue-clickaway": "^2.2.2",
+    "vue-infinite-loading": "^2.4.5",
     "vue-simple-alert": "^1.1.1"
   },
   "devDependencies": {

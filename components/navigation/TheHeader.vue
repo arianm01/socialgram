@@ -3,10 +3,10 @@
     <div class="self-center">
       <img src="~/assets/logo/logo5.png" alt="" class="logo">
     </div>
-    <div class="search-box self-center">
+    <div class="place-self-center">
       <search-box />
     </div>
-    <div class="icons flex self-center">
+    <div class="icons flex self-center ">
       <nuxt-link to="/"><img src="../../assets/pics/home-5-128.png" class="icon" alt="Home"></nuxt-link>
       <nuxt-link to="/post"><img src="../../assets/pics/plus-128.png" class="icon" alt="create"></nuxt-link>
       <div><follow-request /></div>
