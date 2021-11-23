@@ -4,7 +4,7 @@
       v-for="post in posts"
       :key="post.ID"
       :id="post.ID"
-      :image="post.image_url"
+      :image_url="post.image_url"
       :title="post.title"
       :previewText="post.content"
       :user="post.user"
