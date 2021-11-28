@@ -1,5 +1,5 @@
 <template>
-  <div class="body-div h-screen">
+  <div class="body-div">
       <post-list :posts="posts"/>
       <infinite-loading v-if="isTherePost" @infinite="infiniteHandler"></infinite-loading>
       <p class="text-center" v-else>that was all of your posts</p>
@@ -60,5 +60,6 @@ export default {
 .body-div {
   background-color: #18191b;
   color:#f5f5f5;
+  height: inherit;
 }
 </style>
