@@ -58,7 +58,7 @@ export default {
   border: 1px solid #21343b;
   box-shadow: 0 2px 2px #18191b;
   background-color: #242526;
-  width: 90%;
+  width: 85%;
   margin-bottom: 3%;
 }
 
@@ -80,14 +80,14 @@ p{
 
 @media (min-width: 850px) {
   .post-preview {
-    width: 400px;
+    width: 450px;
     margin: 10px;
   }
 }
 
 .post-thumbnail {
   width: 100%;
-  height: 200px;
+  height: 350px;
   background-position: center;
   background-size: cover;
 }
