@@ -60,16 +60,14 @@ export default {
   },
   methods: {
     onLogin() {
-      // console.log(this.user);
       this.$store.dispatch("authenticateUser", {
         ...this.user,
         isSignUp: false
-      }).then(response => {
+      }).then(() => {
         this.$router.push('/');
       }).catch(response => {
           if(response.response)
-            Swal.fire(
-              {
+            Swal.fire({
                 title: 'sth went wrong :(',
                 text: response.response.data.description,
                 icon: 'error',
@@ -194,6 +192,7 @@ export default {
 .input_box {
   background: #21343b;
   border-style: none;
+  outline: none;
   border-bottom: 1px solid white;
   width: 35%;
   color: #fff;
@@ -201,6 +200,7 @@ export default {
 }
 
 .invalid {
+  outline: none;
   border: 1px solid red;
   background: #21343b;
   width: 35%;

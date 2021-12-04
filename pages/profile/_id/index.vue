@@ -5,7 +5,10 @@
 <script>
 export default {
   name: "index",
-  layout: "app",
+  layout: 'app',
+  created() {
+    console.log(this.$route.params.id);
+  }
 };
 </script>
 

@@ -21,25 +21,23 @@ const createStore = () => {
       nuxtServerInit(vuexContext, context) {
 
       },
-      initAuth(vuexContext, req) {
-        return false;
-      },
       authenticateUser(context, payload) {
         console.log(payload);
         let authUrl = process.env.baseURL + "login";
         let fd;
         if (payload.isSignUp) {
           authUrl = process.env.baseURL + "signup";
-          fd = new FormData();
-          fd.append("image", payload.image, payload.image.name);
-          fd.append("name", payload.name.val);
-          fd.append("username", payload.username.val);
-          fd.append("password", payload.password.val);
-          fd.append("email", payload.email.val);
-          fd.append("gender", payload.gender.val);
-          fd.append("age", Number.parseInt(payload.age.val));
-          fd.append("country", payload.country.val);
-          fd.append("city", payload.city.val);
+          fd = {
+            username: payload.UsernameOrEmail.val,
+            password: payload.password.val,
+            image: payload.avatar.val,
+            name: payload.name.val,
+            email: payload.email.val,
+            gender: payload.gender.val,
+            age: payload.age.val,
+            country: payload.country.val,
+            city: payload.city.val
+          }
           console.log(fd);
         } else {
           fd = {
@@ -96,15 +94,14 @@ const createStore = () => {
         }, expiresIn);
         if (token) {
           context.commit("setToken", token);
-          // context.$router.push('/');
         }
       },
       logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpiration");
-
+        Cookie.remove("jwt");
+        Cookie.remove("tokenExpiration");
         clearTimeout(timer);
-
         context.commit("setToken", null);
       },
       autoLogout(context) {
