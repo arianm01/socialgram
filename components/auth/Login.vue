@@ -29,7 +29,7 @@
           <input type="password" required v-model.trim="user.password.val" placeholder="Password" style="width:50%;"
                  :class="{input_box: user.password.isValid, invalid: !user.password.isValid}">
         </div>
-        <button class="css-button-sliding-to-left--green place-self-center" type="submit">
+        <button class="css-button-green place-self-center" type="submit">
           Login
         </button>
         <div class="mt-7 log">
@@ -138,7 +138,7 @@ export default {
 }
 
 
-.css-button-sliding-to-left--green {
+.css-button-green {
   align-self: center;
   justify-self: center;
   min-width: 130px;
@@ -162,15 +162,15 @@ export default {
   border: 2px solid #b0d8da;
 }
 
-.css-button-sliding-to-left--green:hover {
+.css-button-green:hover {
   color: #b0d8da;
 }
 
-.css-button-sliding-to-left--green:hover:after {
+.css-button-green:hover:after {
   width: 100%;
 }
 
-.css-button-sliding-to-left--green:after {
+.css-button-green:after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -194,15 +194,6 @@ export default {
   border-style: none;
   outline: none;
   border-bottom: 1px solid white;
-  width: 35%;
-  color: #fff;
-  font-size: 20px;
-}
-
-.invalid {
-  outline: none;
-  border: 1px solid red;
-  background: #21343b;
   width: 35%;
   color: #fff;
   font-size: 20px;
