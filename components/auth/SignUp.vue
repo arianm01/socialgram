@@ -3,19 +3,19 @@
     <form @submit.prevent="Submit">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
-          src="../../assets/pics/contents.png" alt="english" width="30" />)
+          src="../../assets/pics/contents.png" alt="english" width="30"/>)
         </div>
         <h1 class="title justify-self-center">Create Account</h1>
         <div class="flex flex-row justify-between btns">
           <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
-              <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google" />
+              <img src="../../assets/pics/icons8-google-50.png" class="w-10 g-span" alt="google"/>
               <p class="Goo-p">continue with Google</p>
             </div>
           </div>
           <div class="css-button-sliding-to-left--blue" @click="$emit('warning')">
             <div class="flex flex-row">
-              <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook" />
+              <img src="../../assets/pics/icons8-facebook-50.png" class="w-10 g-span" alt="facebook"/>
               <p class="Goo-p">continue with facebook</p>
             </div>
           </div>
@@ -23,7 +23,9 @@
         <h1 style="align-self: center; font-size: 25px;" class="m-5">-OR-</h1>
         <div class="flex flex-row justify-start">
           <h1 class="txt-avatar">Add Your Avatar</h1>
-          <input type="file" class="avatar" accept="image/*" id="file-input" @change="onFileSelected" required>
+          <input type="text" class="avatar" v-model.trim="user.avatar.val"
+                 :class="{avatar: user.name.isValid, invalid: !user.name.isValid, 'ml-7': true}"
+                 placeholder="Google Drive link" id="file-input" required>
         </div>
         <div class="flex flex-row justify-between mt-7">
           <input type="text" v-model.trim="user.name.val" id="name-input" placeholder="Name" required
@@ -76,9 +78,12 @@ export default {
   name: "SignIn",
   data() {
     return {
-      selectedFile: null,
       user: {
         name: {
+          val: "",
+          isValid: true
+        },
+        avatar: {
           val: "",
           isValid: true
         },
@@ -118,9 +123,6 @@ export default {
     clearValidity(input) {
       this.user[input].isValid = true;
     },
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
-    },
     isUsernameUniqe(event) {
       this.user.username.isValid = true;
       this.$store.dispatch("authenticateUser", {
@@ -157,10 +159,11 @@ export default {
     },
     Submit() {
       if (this.Validate()) {
-        console.log({ ...this.user, image: this.selectedFile });
+        console.log(this.user);
+        //change drive link
+
         this.$store.dispatch("authenticateUser", {
           ...this.user,
-          image: this.selectedFile,
           isSignUp: true
         }).then(response => {
           Swal.fire(
@@ -172,16 +175,16 @@ export default {
             });
           this.$emit('toggle');
         }).catch(response => {
-            if (response.response)
-              Swal.fire(
-                {
-                  title: 'sth went wrong :(',
-                  text: response.response.data.description,
-                  icon: 'error',
-                  confirmButtonText: 'OK'
-                });
-          });
-      }else{
+          if (response.response)
+            Swal.fire(
+              {
+                title: 'sth went wrong :(',
+                text: response.response.data.description,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+        });
+      } else {
         Swal.fire(
           {
             title: 'sth went wrong :(',
@@ -194,6 +197,21 @@ export default {
     },
     Validate() {
       this.formIsinValid = ""
+      if (this.user.avatar.val.startsWith("https://drive.google.com/")) {
+        const myarr = this.user.avatar.val.split('/');
+        if (myarr.length !== 7){
+          console.log(myarr);
+          this.formIsinValid = "your link is not a valid URL from drive"
+          return false;
+        }else{
+          this.user.avatar.val = "https://drive.google.com/uc?export=view&id=" + myarr[5];
+          console.log(this.user.avatar);
+        }
+      }else{
+        this.user.avatar.isValid = false;
+        this.formIsinValid = "your link must start with https://drive.google.com";
+        return false;
+      }
       if (!this.user.name.val.match(/^[A-Za-z ]+$/)) {
         this.user.name.isValid = false;
         this.formIsinValid = "your name must be only letters";
@@ -269,11 +287,13 @@ export default {
 }
 
 .avatar {
-  cursor: pointer;
-  border-radius: 5px;
-  border: 2px solid #fff;
-  padding: 5px 10px;
-  height: 45px;
+  background: #21343b;
+  outline: none;
+  border-style: none;
+  border-bottom: 1px solid white;
+  width: 50%;
+  color: #fff;
+  font-size: 20px;
 }
 
 .title {

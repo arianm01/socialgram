@@ -1,27 +1,32 @@
 <template>
   <article class="post-preview">
-    <div class="flex p-2">
-      <img
-        class="h-7 w-7 mr-2 rounded-full self-center"
-        src="../../static/me.jpg"
-        alt="avatar"
-      />
-      <div class="flex flex-col">
-        <p class="font-sm text-base">Fayaz Ahmed</p>
+      <div class="p-2">
+        <nuxt-link :to="'/profile/'+user.ID" class="flex">
+        <img
+          class="h-7 w-7 mr-2 rounded-full self-center"
+          src="../../static/me.jpg"
+          alt="avatar"
+        />
+        <div class="flex flex-col">
+          <h2 class="font-sm text-base">{{ user.username }}</h2>
+        </div>
+        </nuxt-link>
       </div>
-    </div>
     <img
       class="post-thumbnail"
       src="../../static/me.jpg"
-      alt="thumbnail"/>
-<!--      :style="{backgroundImage: 'url(' + image_url + ')'}"></div>-->
+      alt="thumbnail"
+      @dblclick="likeOrUnlike"
+    />
+    <!--      :style="{backgroundImage: 'url(' + image_url + ')'}"></div>-->
     <div class="flex">
-      <img src="../../assets/pics/favorite-3-128.png" class="icon" alt="follow" @click="isMenuOpen = !isMenuOpen"
-           v-if="!isMenuOpen">
-      <img src="../../assets/pics/heart-69-xxl.png" class="icon" @click="isMenuOpen = !isMenuOpen" v-else
-           alt="follow">
-      <p style="margin: 5px 15px 0 5px"> 2 likes</p>
+      <img src="../../assets/pics/unlike.png" class="icon" alt="like" @click="likeOrUnlike"
+           v-if="!this.status">
+      <img src="../../assets/pics/like.png" class="icon" @click="likeOrUnlike" v-else
+           alt="like">
+      <h2 style="margin: 5px 15px 0 5px"> {{ likes }} likes</h2>
     </div>
+    <hr>
     <div class="post-content">
       <h1>{{ title }}</h1>
       <p>{{ previewText }}</p>
@@ -48,7 +53,41 @@ export default {
     image_url: {
       type: String,
       required: true
+    },
+    user: {
+      required: true,
+    },
+    likes: {
+      required: true,
+    },
+    status: {
+      required: true
     }
+  },
+  data() {
+    return {
+      // likes: this.likes,
+      // status: this.status,
+      likes: 0,
+      status: false,
+    };
+  },
+  methods: {
+    likeOrUnlike() {
+      this.$axios.$patch(process.env.baseURL + "post?post_id=" + this.id, {}, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.getters.token
+        }
+      }).then(response => {
+        console.log(response);
+        this.status = response.status;
+        if (response.status === true) {
+          this.likes++;
+          return;
+        }
+        this.likes--;
+      });
+    },
   }
 };
 </script>
@@ -66,16 +105,26 @@ article {
   text-decoration: none;
   color: white;
 }
+
 .icon {
   height: 25px;
   width: 25px;
   margin: 5px 10px 0 10px;
 }
+
 h1 {
   font-size: 18px;
 }
-p{
+
+p {
   font-size: 14px;
+  opacity: 0.85;
+  text-align: start;
+}
+
+hr {
+  margin-top: 5px;
+  opacity: 0.5;
 }
 
 @media (min-width: 850px) {

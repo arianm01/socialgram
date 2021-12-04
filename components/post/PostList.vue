@@ -8,6 +8,8 @@
       :title="post.title"
       :previewText="post.content"
       :user="post.user"
+      :likes="[].length"
+      :status="[].find(ID => ID===post.user.ID)"
     />
   </section>
 </template>
@@ -21,6 +23,16 @@ props: {
   posts: {
       type: Array,
       required: true
+  },
+  data(){
+    return{
+      search: false,
+    }
+  },
+  methods: {
+    search(){
+
+    }
   }
 }
 };
