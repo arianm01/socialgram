@@ -83,7 +83,7 @@ export default {
   watch: {
     isMenuOpen() {
       if (this.isMenuOpen) {
-        this.$axios.$get(process.env.baseURL + "/requests", {
+        this.$axios.$get(process.env.baseURL + "request", {
           headers: {
             "Authorization": "Bearer " + this.$store.getters.token
           }
@@ -103,9 +103,9 @@ export default {
 
 <style scoped>
 .icon {
-  height: 25px;
-  width: 25px;
-  margin: 5px 10px 0 20px;
+  height: 40px;
+  width: 40px;
+  padding: 8px;
 }
 
 .accept {
@@ -127,20 +127,6 @@ export default {
 @media only screen and (max-width: 1200px) {
   .pff {
     right: 0;
-  }
-}
-
-@media only screen and (max-width: 825px) {
-  .icon {
-    height: 22px;
-    width: 22px;
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  .icon {
-    height: 18px;
-    width: 18px;
   }
 }
 </style>

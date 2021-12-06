@@ -1,13 +1,13 @@
 <template>
   <div class="body-div h-screen">
-    <form @submit.prevent="onPost">
+    <form @submit.prevent="onPost" class="h-full">
       <section class="post-list flex flex-col form1">
         <h1 class="title">Create a new Post</h1>
         <div class="flex flex-row justify-center component">
           <h1 class="txt">Add Your photo</h1>
-          <input type="text" v-model.trim="post.image.val"
-                 :class="{input_box: post.image.isValid, invalid: !post.image.isValid, 'ml-7': true}"
-                 placeholder="Google Drive link" required @blur="clearValidity('image')">
+          <input type="text" v-model.trim="post.image_url.val"
+                 :class="{input_box: post.image_url.isValid, invalid: !post.image_url.isValid, 'ml-7': true}"
+                 placeholder="Google Drive link" required @blur="clearValidity('image_url')">
         </div>
         <div class="flex flex-row justify-center component">
           <h1 class="txt">Add Title</h1>
@@ -25,6 +25,9 @@
         </button>
       </section>
     </form>
+<!--    <div class="h-screen">-->
+
+<!--    </div>-->
   </div>
 </template>
 
@@ -45,7 +48,7 @@ export default {
           val: "",
           isValid: true
         },
-        image: {
+        image_url: {
           val: "",
           isValid: true
         }
@@ -59,18 +62,18 @@ export default {
     },
     Validate(){
       this.formIsinValid = ""
-      if (this.post.image.val.startsWith("https://drive.google.com/")) {
-        const myarr = this.post.image.val.split('/');
+      if (this.post.image_url.val.startsWith("https://drive.google.com/")) {
+        const myarr = this.post.image_url.val.split('/');
         if (myarr.length !== 7) {
           console.log(myarr);
           this.formIsinValid = "your link is not a valid URL from drive"
           return false;
         } else {
-          this.post.image.val = "https://drive.google.com/uc?export=view&id=" + myarr[5];
+          this.post.image_url.val = "https://drive.google.com/uc?export=view&id=" + myarr[5];
           console.log(this.post.image);
         }
       } else {
-        this.post.image.isValid = false;
+        this.post.image_url.isValid = false;
         this.formIsinValid = "your link must start with https://drive.google.com";
         return false;
       }
@@ -80,13 +83,13 @@ export default {
       if (this.Validate()) {
         const fd = {
           title: this.post.title.val,
-          image: this.post.image.val,
+          image_url: this.post.image_url.val,
           content: this.post.caption.val,
         };
         this.$axios.$post(process.env.baseURL+"post", fd , {
           headers: {
             "Authorization": "Bearer " + this.$store.getters.token
-          }}).then(response => {
+          }}).then(() => {
           Swal.fire(
             {
               title: 'success',
@@ -105,7 +108,15 @@ export default {
                 confirmButtonText: 'OK'
               });
         });
-
+      }else {
+        Swal.fire(
+          {
+            title: 'sth went wrong :(',
+            text: this.formIsinValid,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          }
+        )
       }
     }
   }
@@ -229,5 +240,21 @@ textarea {
   height: 100%;
   background: #ffffff;
 }
-
+@media only screen and (max-width:600px) {
+  .txt {
+    font-size:14px;
+  }
+  .input_box,textarea {
+    font-size:14px;
+    width:70%;
+  }
+  .component{
+    width: 100%;
+  }
+}
+@media only screen and (max-height:511px) {
+  .body-div{
+    height: fit-content;
+  }
+}
 </style>

@@ -6,6 +6,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       token: null,
+      user: null,
       didAutoLogout: false
     },
     mutations: {
@@ -15,6 +16,9 @@ const createStore = () => {
       },
       setAutoLogout(state) {
         state.didAutoLogout = true;
+      },
+      setUser(state,payload) {
+        state.user = payload;
       }
     },
     actions: {
@@ -28,13 +32,13 @@ const createStore = () => {
         if (payload.isSignUp) {
           authUrl = process.env.baseURL + "signup";
           fd = {
-            username: payload.UsernameOrEmail.val,
+            username: payload.username.val,
             password: payload.password.val,
-            image: payload.avatar.val,
+            image_url: payload.avatar.val,
             name: payload.name.val,
             email: payload.email.val,
             gender: payload.gender.val,
-            age: payload.age.val,
+            age: parseInt(payload.age.val),
             country: payload.country.val,
             city: payload.city.val
           }
@@ -112,6 +116,9 @@ const createStore = () => {
     getters: {
       isAuthenticated(state) {
         return !!state.token;
+      },
+      user(state){
+        return state.user;
       },
       token(state) {
         return state.token;

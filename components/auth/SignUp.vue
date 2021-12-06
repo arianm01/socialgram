@@ -3,7 +3,7 @@
     <form @submit.prevent="Submit">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
-          src="../../assets/pics/contents.png" alt="english" width="30"/>)
+          src="../../assets/pics/contents(1).png" alt="english" width="30"/>)
         </div>
         <h1 class="title justify-self-center">Create Account</h1>
         <div class="flex flex-row justify-between btns">

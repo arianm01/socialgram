@@ -7,11 +7,11 @@
       <search-box />
     </div>
     <div class="icons flex self-center ">
-      <nuxt-link to="/"><img src="../../assets/pics/home-5-128.png" class="icon" alt="Home"></nuxt-link>
+      <nuxt-link to="/"><img src="../../assets/pics/home-5-128.png" class="icon " alt="Home"></nuxt-link>
       <nuxt-link to="/post"><img src="../../assets/pics/plus-128.png" class="icon" alt="create"></nuxt-link>
       <div><follow-request /></div>
       <div>
-      <img src="../../assets/pics/icons8-google-500.png" class="icon" alt="profile" @click="isProfileOpen=!isProfileOpen">
+      <img :src="image" class="avatar rounded-full" alt="profile" @click="isProfileOpen=!isProfileOpen">
       <transition
         enter-active-class="transition ease-out duration-100"
         enter-class="transform opacity-0 scale-95"
@@ -37,7 +37,7 @@
                 <div class="flex">
                   <img
                     class="h-7 w-7 mr-2 rounded-full self-center"
-                    src="https://fayazz.co/fayaz.jpg"
+                    :src="image"
                     alt="avatar"
                   />
                   <div class="flex flex-col">
@@ -82,6 +82,12 @@ export default {
     logout() {
       this.$store.dispatch("logout");
       this.$router.push("/auth");
+    },
+  },
+  computed: {
+    image(){
+      if (!!this.$store.getters.user)
+      return this.$store.getters.user.image_url;
     }
   }
 };
@@ -106,9 +112,14 @@ export default {
     justify-content: space-evenly;
   }
   .icon {
-    height: 25px;
-    width: 25px;
-    margin: 5px 10px 0 20px;
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+  }
+  .avatar{
+    height:45px;
+    width: 45px;
+    padding: 8px;
   }
   @media only screen and (max-width:1200px) {
     .pff{
@@ -116,22 +127,12 @@ export default {
     }
   }
   @media only screen and (max-width: 825px) {
-
-    .icon {
-      height: 22px;
-      width: 22px;
-    }
-
     .logo {
       width: 60px;
       height: 40px;
     }
   }
     @media only screen and (max-width: 400px) {
-      .icon {
-        height: 18px;
-        width: 18px;
-      }
       .logo {
         width: 40px;
         height: 20px;

@@ -127,7 +127,7 @@ hr {
   opacity: 0.5;
 }
 
-@media (min-width: 850px) {
+@media (min-width: 600px) {
   .post-preview {
     width: 450px;
     margin: 10px;
