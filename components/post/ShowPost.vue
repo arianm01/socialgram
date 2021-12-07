@@ -4,7 +4,7 @@
         <nuxt-link :to="'/profile/'+user.ID" class="flex">
         <img
           class="h-7 w-7 mr-2 rounded-full self-center"
-          src="../../static/me.jpg"
+          :src="user.image_url"
           alt="avatar"
         />
         <div class="flex flex-col">
@@ -14,17 +14,18 @@
       </div>
     <img
       class="post-thumbnail"
-      src="../../static/me.jpg"
+      :src="image_url"
       alt="thumbnail"
       @dblclick="likeOrUnlike"
     />
     <!--      :style="{backgroundImage: 'url(' + image_url + ')'}"></div>-->
     <div class="flex">
       <img src="../../assets/pics/unlike.png" class="icon" alt="like" @click="likeOrUnlike"
-           v-if="!this.status">
+           v-if="!status">
       <img src="../../assets/pics/like.png" class="icon" @click="likeOrUnlike" v-else
            alt="like">
-      <h2 style="margin: 5px 15px 0 5px"> {{ likes }} likes</h2>
+      <h2 style="margin: 5px 15px 0 5px" v-if="ll!==1">{{ll}} likes</h2>
+      <h2 style="margin: 5px 15px 0 5px" v-else>{{ll}} like</h2>
     </div>
     <hr>
     <div class="post-content">
@@ -60,15 +61,12 @@ export default {
     likes: {
       required: true,
     },
-    status: {
-      required: true
-    }
   },
   data() {
     return {
       // likes: this.likes,
       // status: this.status,
-      likes: 0,
+      like: null,
       status: false,
     };
   },
@@ -82,12 +80,34 @@ export default {
         console.log(response);
         this.status = response.status;
         if (response.status === true) {
-          this.likes++;
+          this.like.push(this.$store.getters.user.ID);
           return;
         }
-        this.likes--;
+        this.like.pop();
       });
     },
+  },
+  watch: {
+    status(){
+      for(let user in this.likes){
+        if(user === this.$store.getters.user.ID)
+          this.status=true;
+      }
+      return this.status;
+    }
+  },
+  computed: {
+    ll(){
+      return this.likes.length;
+    }
+  },
+  created(){
+  for(let user in this.likes){
+    if(this.likes[user].ID=== this.$store.getters.user.ID) {
+      this.status = true;
+    }
+  }
+    this.like=this.likes;
   }
 };
 </script>
@@ -136,7 +156,7 @@ hr {
 
 .post-thumbnail {
   width: 100%;
-  height: 350px;
+  height: 300px;
   background-position: center;
   background-size: cover;
 }

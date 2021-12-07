@@ -32,7 +32,7 @@
             aria-labelledby="options-menu"
           >
             <div>
-              <nuxt-link to="/profile" >
+              <nuxt-link :to="profile" >
               <div class="bg-gray-100 p-2 flex items-center" @click="away">
                 <div class="flex">
                   <img
@@ -41,8 +41,8 @@
                     alt="avatar"
                   />
                   <div class="flex flex-col">
-                    <p class="font-sm text-base">Fayaz Ahmed</p>
-                    <p class="font-sm text-gray-600">fayaz@email.com</p>
+                    <p class="font-sm text-base">{{this.$store.getters.user.username}}</p>
+                    <p class="font-sm text-gray-600">{{this.$store.getters.user.name}}</p>
                   </div>
                 </div>
               </div>
@@ -88,6 +88,9 @@ export default {
     image(){
       if (!!this.$store.getters.user)
       return this.$store.getters.user.image_url;
+    },
+    profile(){
+      return "profile/"+this.$store.getters.user.ID;
     }
   }
 };

@@ -3,22 +3,21 @@
     <form @submit.prevent="onPost" class="h-full">
       <section class="post-list flex flex-col form1">
         <h1 class="title">Create a new Post</h1>
-        <div class="flex flex-row justify-center component">
+        <div class="flex justify-center component">
           <h1 class="txt">Add Your photo</h1>
           <input type="text" v-model.trim="post.image_url.val"
-                 :class="{input_box: post.image_url.isValid, invalid: !post.image_url.isValid, 'ml-7': true}"
+                 :class="{input_box: post.image_url.isValid, invalid: !post.image_url.isValid,}"
                  placeholder="Google Drive link" required @blur="clearValidity('image_url')">
         </div>
-        <div class="flex flex-row justify-center component">
+        <div class="flex justify-center component">
           <h1 class="txt">Add Title</h1>
           <input type="text" v-model.trim="post.title.val" placeholder="title" required
-                 :class="{input_box: post.title.isValid, invalid: !post.title.isValid, 'ml-7': true}"
+                 :class="{input_box: post.title.isValid, invalid: !post.title.isValid}"
                  @blur="clearValidity('title')">
         </div>
-        <div class="flex flex-row justify-center component">
+        <div class="flex justify-center component">
           <h1 class="txt">Add Caption</h1>
-          <textarea v-model.trim="post.caption.val" placeholder="caption" required
-                    :class="{'ml-7': true}"></textarea>
+          <textarea v-model.trim="post.caption.val" placeholder="caption" required></textarea>
         </div>
         <button class="css-button-red place-self-center" type="submit">
           Create Post
@@ -97,7 +96,7 @@ export default {
               icon: "success",
               confirmButtonText: "let's go"
             });
-          this.$router.push("/profile");
+          this.$router.push("/profile/"+this.$store.getters.user.id);
         }).catch(response => {
           if (response.response)
             Swal.fire(
@@ -240,19 +239,28 @@ textarea {
   height: 100%;
   background: #ffffff;
 }
-@media only screen and (max-width:600px) {
+@media only screen and (max-width:750px) {
   .txt {
     font-size:14px;
+    padding:0;
+    margin:0;
+    text-align: center;
+  }
+  .component{
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
   }
   .input_box,textarea {
     font-size:14px;
-    width:70%;
+    width:100%;
   }
-  .component{
-    width: 100%;
+  .form1{
+    margin-left: 10%;
+    margin-right: 10%;
   }
 }
-@media only screen and (max-height:511px) {
+@media only screen and (max-height:530px) {
   .body-div{
     height: fit-content;
   }

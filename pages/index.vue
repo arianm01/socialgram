@@ -1,8 +1,8 @@
 <template>
   <div class="body-div">
       <post-list :posts="posts"/>
-      <infinite-loading v-if="isTherePost" @infinite="infiniteHandler" :class="{'h-screen': posts.length===0}"></infinite-loading>
-      <p class="text-center" :class="{'h-screen': posts.length===0}" v-else>that was all of your posts</p>
+      <infinite-loading v-if="isTherePost" @infinite="infiniteHandler" :class="{'h-screen': posts.length<2}"></infinite-loading>
+      <p class="text-center" :class="{'h-screen': posts.length<2}" v-else>that was all of your posts</p>
   </div>
 </template>
 
