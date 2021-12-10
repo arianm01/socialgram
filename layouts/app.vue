@@ -12,9 +12,9 @@ export default {
   name: "app.vue",
   components: { TheHeader },
   middleware: ['check-auth','auth'],
-  created (){
+  async beforeCreate (){
     if (!this.$store.getters.user)
-      this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
+       await this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
         }
@@ -28,3 +28,4 @@ export default {
 <style scoped>
 
 </style>
+d

@@ -9,6 +9,7 @@
       :previewText="post.content"
       :user="post.user"
       :likes="post.likes"
+      :status="post.status"
     />
   </section>
 </template>

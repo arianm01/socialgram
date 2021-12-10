@@ -21,7 +21,7 @@
     <!--      :style="{backgroundImage: 'url(' + image_url + ')'}"></div>-->
     <div class="flex">
       <img src="../../assets/pics/unlike.png" class="icon" alt="like" @click="likeOrUnlike"
-           v-if="!status">
+           v-if="!stat">
       <img src="../../assets/pics/like.png" class="icon" @click="likeOrUnlike" v-else
            alt="like">
       <h2 style="margin: 5px 15px 0 5px" v-if="ll!==1">{{ll}} likes</h2>
@@ -61,13 +61,16 @@ export default {
     likes: {
       required: true,
     },
+    status: {
+      required: true,
+    }
   },
   data() {
     return {
       // likes: this.likes,
       // status: this.status,
-      like: null,
-      status: false,
+      like: [],
+      stat: this.status,
     };
   },
   methods: {
@@ -78,7 +81,7 @@ export default {
         }
       }).then(response => {
         console.log(response);
-        this.status = response.status;
+        this.stat = response.status;
         if (response.status === true) {
           this.like.push(this.$store.getters.user.ID);
           return;
@@ -88,12 +91,8 @@ export default {
     },
   },
   watch: {
-    status(){
-      for(let user in this.likes){
-        if(user === this.$store.getters.user.ID)
-          this.status=true;
-      }
-      return this.status;
+    stat(){
+      return this.stat;
     }
   },
   computed: {
@@ -101,12 +100,8 @@ export default {
       return this.likes.length;
     }
   },
-  created(){
-  for(let user in this.likes){
-    if(this.likes[user].ID=== this.$store.getters.user.ID) {
-      this.status = true;
-    }
-  }
+  created() {
+    this.stat=this.status;
     this.like=this.likes;
   }
 };
@@ -115,6 +110,7 @@ export default {
 <style scoped>
 .post-preview {
   border: 1px solid #21343b;
+  border-radius: 5px;
   box-shadow: 0 2px 2px #18191b;
   background-color: #242526;
   width: 85%;

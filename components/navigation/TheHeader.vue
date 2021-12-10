@@ -92,6 +92,9 @@ export default {
     profile(){
       return "profile/"+this.$store.getters.user.ID;
     }
+  },
+  created() {
+
   }
 };
 </script>

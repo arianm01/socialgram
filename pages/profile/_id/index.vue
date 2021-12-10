@@ -6,8 +6,17 @@
 export default {
   name: "index",
   layout: 'app',
+  data(){
+    return {
+      isItMe: false,
+      id: null,
+    }
+  },
   created() {
-    console.log(this.$route.params.id);
+    this.id=parseInt(this.$route.params.id);
+     if (this.id===this.$store.getters.user.ID)
+      this.isItMe=true;
+    console.log(this.isItMe);
   }
 };
 </script>

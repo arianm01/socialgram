@@ -25,25 +25,23 @@
           aria-labelledby="options-menu"
         >
           <div v-if="reqList.length > 0" v-for="request in reqList" :key="request.ID">
-            <div class="bg-gray-100 p-2 flex items-center">
-              <div class="flex">
-                <nuxt-link :to="'/profile/'+request.ID">
+            <div class="bg-gray-100 kk p-2 flex items flex-col">
+                <nuxt-link :to="'/profile/'+request.ID" class="flex">
                   <img
-                    class="h-7 w-7 mr-2 rounded-full self-center"
+                    class="h-8 w-8 mr-2 rounded-full self-center"
                     :src="request.image_url"
                     alt="avatar"
                   />
-                  <div class="flex flex-col">
+                  <div class="flex flex-col self-start">
                     <p class="font-sm text-base">{{ request.username }}</p>
                     <p class="font-sm text-gray-600">{{ request.name }}</p>
                   </div>
                 </nuxt-link>
-                <div class="p-3 self-center">
-                  <button class="btn accept" @click="accept">Accept</button>
-                  <button class="btn reject" @click="reject">Reject</button>
-                </div>
-              </div>
             </div>
+                <div class="flex bg-gray-100 btns">
+                  <button class="btn accept place-self-end" @click="accept">Accept</button>
+                  <button class="ml-1 btn reject" @click="reject">Reject</button>
+                </div>
           </div>
           <div v-if="reqList.length===0">
             <div class="bg-gray-100 p-2 flex items-center">
@@ -119,11 +117,19 @@ export default {
   padding: 5px;
   background-color: crimson;
 }
-
+.items{
+  width: fit-content;
+}
 .pff {
   background-color: #cccccc;
 }
-
+.kk{
+  width: inherit;
+}
+.btns{
+  width: inherit;
+  justify-content: end;
+}
 @media only screen and (max-width: 1200px) {
   .pff {
     right: 0;

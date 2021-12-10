@@ -17,7 +17,7 @@ const createStore = () => {
       setAutoLogout(state) {
         state.didAutoLogout = true;
       },
-      setUser(state,payload) {
+      setUser(state, payload) {
         state.user = payload;
       }
     },
@@ -25,7 +25,7 @@ const createStore = () => {
       nuxtServerInit(vuexContext, context) {
 
       },
-      authenticateUser(context, payload) {
+      async authenticateUser(context, payload) {
         console.log(payload);
         let authUrl = process.env.baseURL + "login";
         let fd;
@@ -52,7 +52,7 @@ const createStore = () => {
         const request = this.$axios.$post(authUrl, fd);
         request.then(response => {
           if (!payload.isSignUp) {
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
               context.dispatch("autoLogout");
             }, (+response.exp * 1000 - new Date().getTime()));
             localStorage.setItem("token", response.access_token);
@@ -63,71 +63,95 @@ const createStore = () => {
               "tokenExpiration",
               Number.parseInt(response.exp)
             );
+            if (!this.$store.getters.user)
+              this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
+                headers: {
+                  "Authorization": "Bearer " + this.$store.getters.token
+                }
+              }).then(response => {
+                this.$store.commit('setUser',response);
+              });
           }
-        });
-        return request;
-      },
-      tryLogin(context, req) {
-        let token;
-        let tokenExpiration;
-        if (req) {
-          if (!req.headers.cookie) {
-            return;
-          }
-          const jwtCookie = req.headers.cookie
-            .split(";")
-            .find(c => c.trim().startsWith("jwt="));
-          if (!jwtCookie) {
-            return;
-          }
-          token = jwtCookie.split("=")[1];
-          tokenExpiration = req.headers.cookie
-            .split(";")
-            .find(c => c.trim().startsWith("tokenExpiration="))
-            .split("=")[1];
-        } else if (process.client) {
-          token = localStorage.getItem("token");
-          tokenExpiration = localStorage.getItem("tokenExpiration");
-        }
-        const expiresIn = +tokenExpiration * 1000 - new Date().getTime();
-        if (expiresIn < 0) {
-          return;
-        }
-        timer = setTimeout(function() {
-          context.dispatch("autoLogout");
-        }, expiresIn);
-        if (token) {
-          context.commit("setToken", token);
-        }
-      },
-      logout(context) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("tokenExpiration");
-        Cookie.remove("jwt");
-        Cookie.remove("tokenExpiration");
-        clearTimeout(timer);
-        context.commit("setToken", null);
-      },
-      autoLogout(context) {
-        context.dispatch("logout");
-        context.commit("setAutoLogout");
+        })
+  return request;
+},
+  tryLogin(context, req)
+  {
+    let token;
+    let tokenExpiration;
+    if (req) {
+      if (!req.headers.cookie) {
+        return;
       }
-    },
-    getters: {
-      isAuthenticated(state) {
-        return !!state.token;
-      },
-      user(state){
-        return state.user;
-      },
-      token(state) {
-        return state.token;
-      },
-      didAutoLogout(state) {
-        return state.didAutoLogout;
+      const jwtCookie = req.headers.cookie
+        .split(";")
+        .find(c => c.trim().startsWith("jwt="));
+      if (!jwtCookie) {
+        return;
       }
+      token = jwtCookie.split("=")[1];
+      tokenExpiration = req.headers.cookie
+        .split(";")
+        .find(c => c.trim().startsWith("tokenExpiration="))
+        .split("=")[1];
+    } else if (process.client) {
+      token = localStorage.getItem("token");
+      tokenExpiration = localStorage.getItem("tokenExpiration");
     }
-  });
-};
+    const expiresIn = +tokenExpiration * 1000 - new Date().getTime();
+    if (expiresIn < 0) {
+      return;
+    }
+    timer = setTimeout(function () {
+      context.dispatch("autoLogout");
+    }, expiresIn);
+    if (token) {
+      context.commit("setToken", token);
+    }
+  }
+,
+  logout(context)
+  {
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiration");
+    Cookie.remove("jwt");
+    Cookie.remove("tokenExpiration");
+    clearTimeout(timer);
+    context.commit("setToken", null);
+    context.commit("setUser", null);
+  }
+,
+  autoLogout(context)
+  {
+    context.dispatch("logout");
+    context.commit("setAutoLogout");
+  }
+},
+  getters: {
+    isAuthenticated(state)
+    {
+      return !!state.token;
+    }
+  ,
+    user(state)
+    {
+      return state.user;
+    }
+  ,
+    token(state)
+    {
+      return state.token;
+    }
+  ,
+    didAutoLogout(state)
+    {
+      return state.didAutoLogout;
+    }
+  }
+}
+)
+;
+}
+;
 
 export default createStore;

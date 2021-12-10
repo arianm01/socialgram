@@ -156,7 +156,8 @@ export default {
 }
 
 textarea {
-  height: 100px;
+  resize: none;
+  height: 120px;
   font-size: 18px;
 }
 
@@ -239,7 +240,7 @@ textarea {
   height: 100%;
   background: #ffffff;
 }
-@media only screen and (max-width:750px) {
+@media only screen and (max-width:800px) {
   .txt {
     font-size:14px;
     padding:0;
