@@ -74,8 +74,16 @@ export default {
       this.isMenuOpen = false;
     },
     accept() {
+
     },
     reject() {
+      this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
+        headers: {
+          "Authorization": "Bearer " + this.$store.getters.token
+        }
+      }).then(response => {
+        this.$store.commit('setUser',response);
+      });
     }
   },
   watch: {

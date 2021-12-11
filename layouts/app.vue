@@ -13,14 +13,14 @@ export default {
   components: { TheHeader },
   middleware: ['check-auth','auth'],
   async beforeCreate (){
-    if (!this.$store.getters.user)
-       await this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
+    if (!this.$store.getters.user) {
+      const user = await this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
         }
-      }).then(response => {
-        this.$store.commit('setUser',response);
       });
+      await this.$store.commit('setUser', user);
+    }
   }
 };
 </script>
