@@ -99,8 +99,6 @@ export default {
   },
   data() {
     return {
-      // likes: this.likes,
-      // status: this.status,
       like: [],
       stat: this.status,
       isMenuOpen: false

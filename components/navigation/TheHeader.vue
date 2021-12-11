@@ -90,7 +90,7 @@ export default {
       return this.$store.getters.user.image_url;
     },
     profile(){
-      return "profile/"+this.$store.getters.user.ID;
+      return "/profile/"+this.$store.getters.user.ID;
     }
   },
   created() {
