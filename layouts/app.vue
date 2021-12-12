@@ -2,15 +2,17 @@
   <div>
     <the-header />
     <Nuxt />
+    <the-footer />
   </div>
 </template>
 
 <script>
 import TheHeader from "~/components/navigation/TheHeader";
+import TheFooter from "~/components/navigation/TheFooter";
 
 export default {
   name: "app.vue",
-  components: { TheHeader },
+  components: {TheFooter, TheHeader },
   middleware: ['check-auth','auth'],
   async beforeCreate (){
     if (!this.$store.getters.user) {

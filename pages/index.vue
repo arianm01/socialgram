@@ -1,9 +1,11 @@
 <template>
   <div class="body-div">
-    <post-list :posts="posts"/>
-    <infinite-loading v-if="isTherePost" @infinite="infiniteHandler"
-                      :class="{'h-screen': posts.length<2}"></infinite-loading>
-    <p class="text-center" :class="{'h-screen': posts.length<2}" v-else>that was all of your posts</p>
+    <div>
+      <post-list :posts="posts"/>
+      <infinite-loading v-if="isTherePost" @infinite="infiniteHandler"
+                        :class="{'h-screen': posts.length<2}"></infinite-loading>
+      <p class="text-center" :class="{'h-screen': posts.length<2}" v-else>that was all of your posts</p>
+    </div>
   </div>
 </template>
 
@@ -11,9 +13,10 @@
 import PostList from "~/components/post/PostList";
 import InfiniteLoading from 'vue-infinite-loading';
 import Swal from "sweetalert2";
+import BaseSpinner from "~/components/features/BaseSpinner";
 
 export default {
-  components: {InfiniteLoading, PostList},
+  components: {InfiniteLoading, PostList,BaseSpinner},
   layout: 'app',
   methods: {
     async infiniteHandler($state) {
@@ -34,7 +37,7 @@ export default {
         for (const user in result[key].likes) {
           console.log(user);
           if (result[key].likes[user].ID === this.$store.getters.user.ID) {
-            this.posts[this.posts.length - 1].status=true;
+            this.posts[this.posts.length - 1].status = true;
             break;
           }
         }
