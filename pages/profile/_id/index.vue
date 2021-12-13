@@ -10,7 +10,7 @@
           <div class="flex name">
             <h1>{{ user.username }}</h1>
             <div v-if="!isItMe" class="flex justify-around">
-              <button @click="createReq" v-if="true" class="css-button-shadow--sky">Follow</button>
+              <button @click="createReq" v-if="false" class="css-button-shadow--sky">Follow</button>
               <button @click="deleteReq" v-if="false" class="css-button-black">Requested</button>
               <button @click="deleteFollowing" v-else class="css-button-shadow--sky">Following</button>
             </div>
@@ -158,7 +158,28 @@ export default {
       })
     },
     deleteFollowing() {
-
+      Swal.fire({
+        title: 'Are you sure',
+        text: "do you want to unfollow this user?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$axios.$delete(process.env.baseURL + "following?user_id=" + this.user.ID, {
+            headers: {
+              "Authorization": "Bearer " + this.$store.getters.token
+            }
+          }).then(() =>
+            Swal.fire(
+              'Deleted!',
+              'Your connection has been deleted.',
+              'success'
+            )).then(() => this.$router.go());
+        }
+      })
     },
     deleteFollowers() {
 
