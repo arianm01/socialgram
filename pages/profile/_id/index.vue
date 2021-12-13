@@ -15,7 +15,7 @@
               <button @click="deleteFollowing" v-else class="css-button-shadow--sky">Following</button>
             </div>
             <div v-else class="flex ">
-              <button @click="editProfile" v-if="false" class="css-button-black">Edit profile</button>
+              <button @click="editProfile" class="css-button-black">Edit profile</button>
             </div>
           </div>
           <div class="flex flex-auto pos justify-around">
@@ -31,6 +31,25 @@
             <p>{{ user.bio }}</p>
             <p>{{ user.interest }}</p>
           </div>
+
+          <modal
+            title="editing profile"
+            v-show="modalSecond.show"
+            @close="modalSecond.show = false">
+            <div slot="body">
+              <form @submit.prevent="submitSecondForm" class="flex flex-col place-center">
+                <div class="flex justify-center component">
+                  <h1 class="txt">bio</h1>
+                  <input type="text" v-model.trim="user.bio" placeholder="Bio" required>
+                </div>
+                <div class="flex justify-center component">
+                  <h1 class="txt">interest</h1>
+                  <textarea v-model.trim="user.interest" placeholder="intrests" required></textarea>
+                </div>
+                <button class="btn btnPrimary">Submit</button>
+              </form>
+            </div>
+          </modal>
         </div>
       </div>
       <hr>
@@ -44,10 +63,11 @@
 import PostList from "~/components/post/PostList";
 import BaseSpinner from "~/components/features/BaseSpinner";
 import Swal from "sweetalert2";
+import Modal from "~/components/UI/Modal";
 
 export default {
   name: "index",
-  components: {BaseSpinner, PostList},
+  components: {Modal, BaseSpinner, PostList},
   layout: 'app',
   data() {
     return {
@@ -57,6 +77,9 @@ export default {
       isTherePost: false,
       posts: [],
       isLoading: true,
+      modalSecond: {
+        show: false,
+      },
     }
   },
   component: {},
@@ -104,7 +127,7 @@ export default {
 
     },
     createReq() {
-      this.$axios.$post(process.env.baseURL + "request?user_id=" + this.user.ID,{} ,{
+      this.$axios.$post(process.env.baseURL + "request?user_id=" + this.user.ID, {}, {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
         }
@@ -130,7 +153,7 @@ export default {
               'Deleted!',
               'Your request has been deleted.',
               'success'
-            )).then(()=>this.$router.go());
+            )).then(() => this.$router.go());
         }
       })
     },
@@ -141,7 +164,22 @@ export default {
 
     },
     editProfile() {
-
+      this.modalSecond.show = !this.modalSecond.show;
+    },
+    submitSecondForm() {
+      console.log({
+        bio: this.user.bio,
+        interest: this.user.interest,
+      });
+      this.$axios.$put(process.env.baseURL + "profile", {
+        bio: this.user.bio,
+        interest: this.user.interest,
+      }, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.getters.token
+        }
+      });
+      this.modalSecond.show=false;
     }
   }
 };
@@ -153,7 +191,6 @@ export default {
   color: #f5f5f5;
   height: fit-content;
 }
-
 .avatar {
   height: 150px;
   width: 150px;
@@ -168,7 +205,7 @@ export default {
   justify-content: center;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
 
