@@ -128,10 +128,13 @@ export default {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
         }
-      }).then(response => {
-        console.log(response);
-        this.$router.push("/profile/" + this.user.id);
-      }).catch(response => {
+      }).then(() =>
+        Swal.fire(
+          'Deleted!',
+          'Your post has been deleted.',
+          'success'
+        )).then(() => this.$router.push("/profile/" + this.user.id))
+        .catch(response => {
         if (response.response)
           Swal.fire(
             {
