@@ -11,20 +11,20 @@
             <h1>{{ user.username }}</h1>
             <div v-if="!isItMe" class="flex justify-around">
               <button @click="createReq" v-if="true" class="css-button-shadow--sky">Follow</button>
-              <button @click="deleteReq" v-if="true" class="css-button-black">Requested</button>
+              <button @click="deleteReq" v-if="false" class="css-button-black">Requested</button>
               <button @click="deleteFollowing" v-else class="css-button-shadow--sky">Following</button>
             </div>
-            <div v-else class="flex justify-around">
-              <button class="css-button-black">Edit profile</button>
+            <div v-else class="flex ">
+              <button @click="editProfile" v-if="false" class="css-button-black">Edit profile</button>
             </div>
           </div>
-          <div class="flex flex-auto pos w-80">
+          <div class="flex flex-auto pos justify-around">
             <p v-if="user.posts.length!==1">{{ user.posts.length }} posts</p>
             <p v-else>{{ user.posts.length }} post</p>
-            <p @click="showFollowings" v-if="user.followers!==1">{{user.followers }} followers</p>
-            <p @click="showFollowings" v-else>{{ user.followers }} followers</p>
-            <p @click="showFollowers" v-if="user.followings!==1">{{ user.followings }}followings</p>
-            <p @click="showFollowers" v-else>{{ user.followings }} followings</p>
+            <p @click="showFollowings" class="cursor" v-if="user.followers!==1">{{ user.followers }} followers</p>
+            <p @click="showFollowings" class="cursor" v-else>{{ user.followers }} followers</p>
+            <p @click="showFollowers" class="cursor" v-if="user.followings!==1">{{ user.followings }} followings</p>
+            <p @click="showFollowers" class="cursor" v-else>{{ user.followings }} followings</p>
           </div>
           <div>
             <p>{{ user.name }}</p>
@@ -44,6 +44,7 @@
 import PostList from "~/components/post/PostList";
 import BaseSpinner from "~/components/features/BaseSpinner";
 import Swal from "sweetalert2";
+
 export default {
   name: "index",
   components: {BaseSpinner, PostList},
@@ -95,17 +96,21 @@ export default {
       this.isItMe = true;
     this.isLoading = false;
   },
-  methods:{
-    showFollowers(){
+  methods: {
+    showFollowers() {
 
     },
-    showFollowings (){
+    showFollowings() {
 
     },
-    createReq (){
-
+    createReq() {
+      this.$axios.$post(process.env.baseURL + "request?user_id=" + this.user.ID,{} ,{
+        headers: {
+          "Authorization": "Bearer " + this.$store.getters.token
+        }
+      }).then(() => this.$router.go());
     },
-    deleteReq (){
+    deleteReq() {
       Swal.fire({
         title: 'Are you sure',
         text: "do you want to withdraw this request?",
@@ -116,16 +121,26 @@ export default {
         confirmButtonText: 'Yes!'
       }).then((result) => {
         if (result.isConfirmed) {
-
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
+          this.$axios.$delete(process.env.baseURL + "request?user_id=" + this.user.ID, {
+            headers: {
+              "Authorization": "Bearer " + this.$store.getters.token
+            }
+          }).then(() =>
+            Swal.fire(
+              'Deleted!',
+              'Your request has been deleted.',
+              'success'
+            )).then(()=>this.$router.go());
         }
       })
     },
-    deleteFollowing(){
+    deleteFollowing() {
+
+    },
+    deleteFollowers() {
+
+    },
+    editProfile() {
 
     }
   }
@@ -151,6 +166,10 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+.cursor{
+  cursor: pointer;
 }
 
 h1 {
@@ -226,7 +245,7 @@ p {
 
 @media only screen and (max-width: 525px) {
   .pos {
-    display: none;
+    /*display: none;*/
   }
 
   .name {
