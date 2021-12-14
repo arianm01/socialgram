@@ -57,7 +57,7 @@
             @close="modal = false">
             <div slot="body">
               <div v-if="list.length > 0" v-for="request in list" :key="request.ID">
-                <div class="bg-gray-100 kk p-2 flex items place-content-between">
+                <div class="kk p-2 flex items place-content-between">
                   <nuxt-link :to="'/profile/'+request.ID" class="flex">
                     <img
                       class="h-8 w-8 mr-2 rounded-full self-center"
@@ -65,11 +65,11 @@
                       alt="avatar"
                     />
                     <div class="flex flex-col self-start">
-                      <p class="font-sm text-gray-600">{{ request.username }}</p>
-                      <p class="font-sm text-gray-600">{{ request.name }}</p>
+                      <p class="">{{ request.username }}</p>
+                      <p class="">{{ request.name }}</p>
                     </div>
                   </nuxt-link>
-                  <div class="flex bg-gray-100 btns" v-if="isItMe">
+                  <div class="flex btns" v-if="isItMe">
                     <button class="accept place-self-center" v-if="title==='Followings'" @click="deleteFollowing(request.ID)">Following</button>
                     <button class="reject place-self-center" v-else @click="deleteFollower(request.ID)">Remove</button>
                   </div>
@@ -310,9 +310,17 @@ h1 {
 }
 .accept {
   color: blue;
+  min-width: 80px;
+  height: 35px;
+  font-size: 16px ;
+  font-weight: bold;
 }
 .reject {
+  min-width: 80px;
+  height: 35px;
   color: red;
+  font-size: 16px ;
+  font-weight: bold;
 }
 .btns {
   width: inherit;
@@ -320,6 +328,11 @@ h1 {
 }
 .kk {
   width: inherit;
+  background-color:black;
+  color: white;
+  border: 2px solid cadetblue;
+  margin-top:5px;
+  border-radius:10px;
 }
 
 hr {
