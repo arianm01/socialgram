@@ -133,7 +133,7 @@ export default {
           'Deleted!',
           'Your post has been deleted.',
           'success'
-        )).then(() => this.$router.push("/profile/" + this.user.id))
+        )).then(() => this.$router.go())
         .catch(response => {
         if (response.response)
           Swal.fire(

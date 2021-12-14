@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .modal-enter, .modal-leave-active {
   opacity: 0;
 }
@@ -91,52 +91,6 @@ export default {
 }
 .modal-bottom {
   padding-top: 40px;
-}
-.component {
-  width: 90%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-input,textarea {
-  width: 100%;
-  color: #18191b;
-  height: 50px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  font-size: 16px;
-  background-color: aliceblue;
-  border: none;
-  border-radius: 10px;
-  box-sizing: border-box;
-  text-align: center;
-  outline: none;
-}
-
-textarea {
-  resize: none;
-  height: 120px;
-  font-size: 18px;
-}
-.txt {
-  font-size: 18px;
-  align-self: center;
-  width: 150px;
-  padding: 5px;
-  margin: 6px 3% 3%;
-}
-.btn{
-  min-width: 80px;
-  height: 35px;
-  color: #fff;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  outline: none;
-  border-radius: 5px;
-  border: none;
-  background-color: #3a86ff;
 }
 a.another-modal {
   color: #000;

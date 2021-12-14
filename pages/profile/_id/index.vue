@@ -10,21 +10,21 @@
           <div class="flex name">
             <h1>{{ user.username }}</h1>
             <div v-if="!isItMe" class="flex justify-around">
-              <button @click="createReq" v-if="false" class="css-button-shadow--sky">Follow</button>
-              <button @click="deleteReq" v-if="false" class="css-button-black">Requested</button>
-              <button @click="deleteFollowing" v-else class="css-button-shadow--sky">Following</button>
+              <button @click="createReq" v-if="!user.is_requested&&!user.isFriend" class="css-button-shadow--sky">Follow</button>
+              <button @click="deleteReq" v-if="user.is_requested" class="css-button-black">Requested</button>
+              <button @click="deleteFollowing(user.ID)" v-if="user.isFriend" class="css-button-shadow--sky">Following</button>
             </div>
-            <div v-else class="flex ">
+            <div v-else class="flex">
               <button @click="editProfile" class="css-button-black">Edit profile</button>
             </div>
           </div>
           <div class="flex flex-auto pos justify-around">
-            <p v-if="user.posts.length!==1">{{ user.posts.length }} posts</p>
-            <p v-else>{{ user.posts.length }} post</p>
-            <p @click="showFollowings" class="cursor" v-if="user.followers!==1">{{ user.followers }} followers</p>
-            <p @click="showFollowings" class="cursor" v-else>{{ user.followers }} followers</p>
-            <p @click="showFollowers" class="cursor" v-if="user.followings!==1">{{ user.followings }} followings</p>
-            <p @click="showFollowers" class="cursor" v-else>{{ user.followings }} followings</p>
+            <p v-if="posts.length!==1">{{ posts.length }} posts</p>
+            <p v-else>{{ posts.length }} post</p>
+            <p @click="showFollowers" class="cursor" v-if="user.follower_number!==1">{{ user.follower_number }} followers</p>
+            <p @click="showFollowers" class="cursor" v-else>{{ user.follower_number }} followers</p>
+            <p @click="showFollowings" class="cursor" v-if="user.following_number!==1">{{ user.following_number }} followings</p>
+            <p @click="showFollowings" class="cursor" v-else>{{ user.following_number }} followings</p>
           </div>
           <div>
             <p>{{ user.name }}</p>
@@ -50,11 +50,39 @@
               </form>
             </div>
           </modal>
+
+          <modal
+            :title="title"
+            v-show="modal"
+            @close="modal = false">
+            <div slot="body">
+              <div v-if="list.length > 0" v-for="request in list" :key="request.ID">
+                <div class="bg-gray-100 kk p-2 flex items place-content-between">
+                  <nuxt-link :to="'/profile/'+request.ID" class="flex">
+                    <img
+                      class="h-8 w-8 mr-2 rounded-full self-center"
+                      :src="request.image_url"
+                      alt="avatar"
+                    />
+                    <div class="flex flex-col self-start">
+                      <p class="font-sm text-gray-600">{{ request.username }}</p>
+                      <p class="font-sm text-gray-600">{{ request.name }}</p>
+                    </div>
+                  </nuxt-link>
+                  <div class="flex bg-gray-100 btns" v-if="isItMe">
+                    <button class="accept place-self-center" v-if="title==='Followings'" @click="deleteFollowing(request.ID)">Following</button>
+                    <button class="reject place-self-center" v-else @click="deleteFollower(request.ID)">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </modal>
+
         </div>
       </div>
       <hr>
-      <post-list :posts="posts"/>
-      <!--        <p class="text-center" :class="'h-screen'" v-else>that was all of your posts</p>-->
+      <post-list v-if="posts.length>0" :posts="posts"/>
+      <p class="text-center" :class="{'h-screen':posts.length===0}" v-else>that was all of your posts</p>
     </div>
   </div>
 </template>
@@ -76,10 +104,13 @@ export default {
       user: {},
       isTherePost: false,
       posts: [],
+      list: [],
+      title: '',
       isLoading: true,
       modalSecond: {
         show: false,
       },
+      modal: false
     }
   },
   component: {},
@@ -98,20 +129,22 @@ export default {
         "Authorization": "Bearer " + this.$store.getters.token
       }
     });
-    if (profile.posts.length === 0) {
-      this.isTherePost = false;
-      return;
-    }
     this.user = profile;
-    for (const key in profile.posts) {
-      console.log(profile.posts[key]);
-      this.posts.push({...profile.posts[key], status: false});
-      this.posts[this.posts.length - 1].user = this.user;
-      for (const user in profile.posts[key].likes) {
-        console.log(user);
-        if (profile.posts[key].likes[user].ID === this.$store.getters.user.ID) {
-          this.posts[this.posts.length - 1].status = true;
-          break;
+    if (!!profile.posts) {
+      if (profile.posts.length === 0) {
+        this.isTherePost = false;
+        return;
+      }
+      for (const key in profile.posts) {
+        console.log(profile.posts[key]);
+        this.posts.push({...profile.posts[key], status: false});
+        this.posts[this.posts.length - 1].user = this.user;
+        for (const user in profile.posts[key].likes) {
+          console.log(user);
+          if (profile.posts[key].likes[user].ID === this.$store.getters.user.ID) {
+            this.posts[this.posts.length - 1].status = true;
+            break;
+          }
         }
       }
     }
@@ -120,11 +153,31 @@ export default {
     this.isLoading = false;
   },
   methods: {
-    showFollowers() {
-
+    async showFollowers() {
+      if((this.user.isFriend || this.isItMe)){
+      this.list=[];
+      this.title = "Followers";
+      const list = await this.$axios.$get(process.env.baseURL + 'followers?user_id='+this.user.ID, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.getters.token
+        }
+      });
+      this.list = list;
+      this.modal= !this.modal;
+      }
     },
-    showFollowings() {
-
+    async showFollowings() {
+      if((this.user.isFriend || this.isItMe)) {
+        this.list = [];
+        this.title = 'Followings';
+        const list = await this.$axios.$get(process.env.baseURL + 'following?user_id=' + this.user.ID, {
+          headers: {
+            "Authorization": "Bearer " + this.$store.getters.token
+          }
+        });
+        this.list = list;
+        this.modal = !this.modal;
+      }
     },
     createReq() {
       this.$axios.$post(process.env.baseURL + "request?user_id=" + this.user.ID, {}, {
@@ -157,7 +210,7 @@ export default {
         }
       })
     },
-    deleteFollowing() {
+    deleteFollowing(ID) {
       Swal.fire({
         title: 'Are you sure',
         text: "do you want to unfollow this user?",
@@ -168,7 +221,7 @@ export default {
         confirmButtonText: 'Yes!'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$axios.$delete(process.env.baseURL + "following?user_id=" + this.user.ID, {
+          this.$axios.$delete(process.env.baseURL + "following?user_id=" + ID, {
             headers: {
               "Authorization": "Bearer " + this.$store.getters.token
             }
@@ -181,7 +234,7 @@ export default {
         }
       })
     },
-    deleteFollowers() {
+    deleteFollower() {
 
     },
     editProfile() {
@@ -234,6 +287,19 @@ h1 {
   font-size: 22px;
   margin-right: 14px;
 }
+.accept {
+  color: blue;
+}
+.reject {
+  color: red;
+}
+.btns {
+  width: inherit;
+  place-content: center;
+}
+.kk {
+  width: inherit;
+}
 
 hr {
   margin-top: 5px;
@@ -246,7 +312,52 @@ hr {
 p {
   margin-right: 14px;
 }
+.component {
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+input,textarea {
+  width: 100%;
+  color: #18191b;
+  height: 50px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 16px;
+  background-color: aliceblue;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+}
 
+textarea {
+  resize: none;
+  height: 120px;
+  font-size: 18px;
+}
+.btn{
+  min-width: 80px;
+  height: 35px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background-color: #3a86ff;
+}
+.txt {
+  font-size: 18px;
+  align-self: center;
+  width: 150px;
+  padding: 5px;
+  margin: 6px 3% 3%;
+}
 .css-button-shadow--sky {
   min-width: 80px;
   height: 35px;
