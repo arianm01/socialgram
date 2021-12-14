@@ -15,7 +15,6 @@ export default {
   components: {TheFooter, TheHeader },
   middleware: ['check-auth','auth'],
   async beforeCreate (){
-    if (!this.$store.getters.user) {
       const user = await this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
@@ -23,7 +22,6 @@ export default {
       });
       await this.$store.commit('setUser', user);
     }
-  }
 };
 </script>
 

@@ -116,7 +116,6 @@ const createStore = () => {
             Cookie.remove("tokenExpiration");
             clearTimeout(timer);
             context.commit("setToken", null);
-            context.commit("setUser", null);
           }
           ,
           autoLogout(context) {
