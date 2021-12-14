@@ -96,7 +96,7 @@ export default {
               icon: "success",
               confirmButtonText: "let's go"
             });
-          this.$router.push("/profile/"+this.$store.getters.user.id);
+          this.$router.push("/profile/"+this.$store.getters.user.ID);
         }).catch(response => {
           if (response.response)
             Swal.fire(

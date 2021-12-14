@@ -234,8 +234,29 @@ export default {
         }
       })
     },
-    deleteFollower() {
-
+    deleteFollower(ID) {
+      Swal.fire({
+        title: 'Are you sure',
+        text: "do you want to remove this follower?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$axios.$delete(process.env.baseURL + "followers?user_id=" + ID, {
+            headers: {
+              "Authorization": "Bearer " + this.$store.getters.token
+            }
+          }).then(() =>
+            Swal.fire(
+              'Deleted!',
+              'Your connection has been deleted.',
+              'success'
+            )).then(() => this.$router.go());
+        }
+      })
     },
     editProfile() {
       this.modalSecond.show = !this.modalSecond.show;
