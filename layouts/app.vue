@@ -2,25 +2,27 @@
   <div>
     <the-header />
     <Nuxt />
+    <the-footer />
   </div>
 </template>
 
 <script>
 import TheHeader from "~/components/navigation/TheHeader";
+import TheFooter from "~/components/navigation/TheFooter";
 
 export default {
   name: "app.vue",
-  components: { TheHeader },
+  components: {TheFooter, TheHeader },
   middleware: ['check-auth','auth'],
-  created (){
-    if (!this.$store.getters.user)
-      this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
+  async beforeCreate (){
+    if (!this.$store.getters.user) {
+      const user = await this.$axios.$get(process.env.baseURL + "profile?user_id=0", {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
         }
-      }).then(response => {
-        this.$store.commit('setUser',response);
       });
+      await this.$store.commit('setUser', user);
+    }
   }
 };
 </script>
@@ -28,3 +30,4 @@ export default {
 <style scoped>
 
 </style>
+d

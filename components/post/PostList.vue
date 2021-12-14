@@ -8,8 +8,8 @@
       :title="post.title"
       :previewText="post.content"
       :user="post.user"
-      :likes="[].length"
-      :status="[].find(ID => ID===post.user.ID)"
+      :likes="post.likes"
+      :status="post.status"
     />
   </section>
 </template>
@@ -24,16 +24,6 @@ props: {
       type: Array,
       required: true
   },
-  data(){
-    return{
-      search: false,
-    }
-  },
-  methods: {
-    search(){
-
-    }
-  }
 }
 };
 </script>
