@@ -3,7 +3,7 @@
     <form @submit.prevent="onLogin">
       <div class="right-side h-screen flex flex-col">
         <div class="flex flex-row justify-end english1 .flex-1"><h1 class="english">English(</h1><img
-          src="../../assets/pics/contents.png" alt="english" width="30" />)
+          src="../../assets/pics/contents(1).png" alt="english" width="30" />)
         </div>
         <h1 class="title">Login to your Account</h1>
         <div class="flex flex-row justify-between btns">
@@ -29,7 +29,7 @@
           <input type="password" required v-model.trim="user.password.val" placeholder="Password" style="width:50%;"
                  :class="{input_box: user.password.isValid, invalid: !user.password.isValid}">
         </div>
-        <button class="css-button-sliding-to-left--green place-self-center" type="submit">
+        <button class="css-button-green place-self-center" type="submit">
           Login
         </button>
         <div class="mt-7 log">
@@ -60,16 +60,14 @@ export default {
   },
   methods: {
     onLogin() {
-      // console.log(this.user);
       this.$store.dispatch("authenticateUser", {
         ...this.user,
         isSignUp: false
-      }).then(response => {
+      }).then(() => {
         this.$router.push('/');
       }).catch(response => {
           if(response.response)
-            Swal.fire(
-              {
+            Swal.fire({
                 title: 'sth went wrong :(',
                 text: response.response.data.description,
                 icon: 'error',
@@ -140,7 +138,7 @@ export default {
 }
 
 
-.css-button-sliding-to-left--green {
+.css-button-green {
   align-self: center;
   justify-self: center;
   min-width: 130px;
@@ -164,15 +162,15 @@ export default {
   border: 2px solid #b0d8da;
 }
 
-.css-button-sliding-to-left--green:hover {
+.css-button-green:hover {
   color: #b0d8da;
 }
 
-.css-button-sliding-to-left--green:hover:after {
+.css-button-green:hover:after {
   width: 100%;
 }
 
-.css-button-sliding-to-left--green:after {
+.css-button-green:after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -194,15 +192,8 @@ export default {
 .input_box {
   background: #21343b;
   border-style: none;
+  outline: none;
   border-bottom: 1px solid white;
-  width: 35%;
-  color: #fff;
-  font-size: 20px;
-}
-
-.invalid {
-  border: 1px solid red;
-  background: #21343b;
   width: 35%;
   color: #fff;
   font-size: 20px;

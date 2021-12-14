@@ -25,7 +25,6 @@ import Swal from 'sweetalert2';
 export default {
   name: "index",
   components: { SignUp, Login },
-  middleware: 'dash',
   data() {
     return {
       isSignUp: false

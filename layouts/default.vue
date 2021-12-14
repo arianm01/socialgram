@@ -5,7 +5,7 @@
 <script>
 export default {
   name: "default.vue",
-  middleware: ['check-auth']
+  middleware: ['check-auth','dash']
 };
 </script>
 
