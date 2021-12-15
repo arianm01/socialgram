@@ -48,6 +48,7 @@ export default {
 
 <style scoped>
 .main{
+ overflow-x:hidden;
   display: flex;
 }
 .left-side {
