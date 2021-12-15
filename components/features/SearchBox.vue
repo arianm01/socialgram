@@ -65,8 +65,8 @@ export default {
   },
   methods: {
     searcher() {
-      if (this.search.length < 3)
-        return;
+  //    if (this.search.length < 3)
+ //       return;
       this.$axios.$get(process.env.baseURL + "search/" + this.search + "?page=0", {
         headers: {
           "Authorization": "Bearer " + this.$store.getters.token
@@ -90,9 +90,9 @@ export default {
       this.searchResult = [];
       if (this.search.length > 0) {
         this.showSearch = true;
-        if (this.search.length > 2) {
+   //     if (this.search.length > 2) {
           this.searcher();
-        }
+     //   }
       }
     }
   }
