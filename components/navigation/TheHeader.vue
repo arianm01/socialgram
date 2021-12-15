@@ -1,7 +1,7 @@
 <template>
   <div class="header-container flex justify-evenly shadow-2xl ">
     <div class="self-center">
-      <img src="../../assets/logo/logo5.png" alt="" class="logo">
+      <img src="./../../assets/logo/logo5.png" alt="" class="logo">
     </div>
     <div class="place-self-center">
       <search-box />
