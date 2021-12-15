@@ -57,6 +57,6 @@ export default {
   build: {
   },
   env: {
-    baseURL: "http://localhost:8000/",
+    baseURL: "https://socialgram-server.herokuapp.com/",
   }
 }
