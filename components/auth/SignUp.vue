@@ -197,21 +197,6 @@ export default {
     },
     Validate() {
       this.formIsinValid = ""
-      if (this.user.avatar.val.startsWith("https://drive.google.com/")) {
-        const myarr = this.user.avatar.val.split('/');
-        if (myarr.length !== 7) {
-          console.log(myarr);
-          this.formIsinValid = "your link is not a valid URL from drive"
-          return false;
-        } else {
-          this.user.avatar.val = "https://drive.google.com/uc?export=view&id=" + myarr[5];
-          console.log(this.user.avatar);
-        }
-      } else {
-        this.user.avatar.isValid = false;
-        this.formIsinValid = "your link must start with https://drive.google.com";
-        return false;
-      }
       if (!this.user.name.val.match(/^[A-Za-z ]+$/)) {
         this.user.name.isValid = false;
         this.formIsinValid = "your name must be only letters";
@@ -250,6 +235,21 @@ export default {
       if (!this.user.city.val.match(/^[A-Za-z]+$/)) {
         this.user.city.isValid = false;
         this.formIsinValid = "your city name must be only letters";
+        return false;
+      }
+      if (this.user.avatar.val.startsWith("https://drive.google.com/")) {
+        const myarr = this.user.avatar.val.split('/');
+        if (myarr.length !== 7) {
+          console.log(myarr);
+          this.formIsinValid = "your link is not a valid URL from drive"
+          return false;
+        } else {
+          this.user.avatar.val = "https://drive.google.com/uc?export=view&id=" + myarr[5];
+          console.log(this.user.avatar);
+        }
+      } else {
+        this.user.avatar.isValid = false;
+        this.formIsinValid = "your link must start with https://drive.google.com";
         return false;
       }
       return true;
