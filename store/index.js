@@ -118,10 +118,10 @@ const createStore = () => {
             context.commit("setToken", null);
           }
           ,
-          autoLogout(context) {
-            context.dispatch("logout");
-            context.commit("setAutoLogout");
-          }
+//           autoLogout(context) {
+//             context.dispatch("logout");
+//             context.commit("setAutoLogout");
+//           }
         },
         getters: {
           isAuthenticated(state) {
